@@ -1,3 +1,4 @@
+
 package com.esprit.examen.services;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.log;
@@ -17,7 +18,7 @@ import com.esprit.examen.entities.Produit;
 import com.esprit.examen.repositories.DetailFactureRepository;
 import com.esprit.examen.repositories.ProduitRepository;
 
-/*@RunWith(SpringRunner.class)
+@RunWith(SpringRunner.class)
 @SpringBootTest
 public class ProductServiceImplTest {
 	@Autowired
@@ -29,6 +30,7 @@ public class ProductServiceImplTest {
 	@Autowired
 	DetailFactureRepository detailFactureRepository;
 	
+	//Verifier si le total des produits depasse le maximum
 	@Test
 	@Order(1)
 	public void verifierMaxProducts() {
@@ -41,30 +43,28 @@ public class ProductServiceImplTest {
 	//Un produit est appele demande si sa vente depasse la moitie du total des ventes de tous les produits.
 	@Test
 	@Order(0)
-	public void produitDemande(int max) {
+	public void produitDemande() {
 		List <DetailFacture> list = detailFactureRepository.findAll();
 		int nbreProduitMax = 0;
 		int nbreProduitcourant = 0;
-        Produit prodMax = new Produit();
+		int i = 0;
         //Le produit le plus vendu
-        int totalProduits = productRepository.findAll().size() ;
         int totalProduitsVendus = 0;
         
-        for (Produit prod : productRepository.findAll()) {
-
-            for (DetailFacture df : list) {
-                if (df.getProduit().equals(prod)) {
+        for (DetailFacture df1 : list) {
+        	i=i+1;
+            totalProduitsVendus=totalProduitsVendus+1;
+            for (DetailFacture df2 : list) {
+                if ( (df1.getProduit().getIdProduit())== (df2.getProduit().getIdProduit())) {
                 	nbreProduitcourant = nbreProduitcourant + 1;
                 }
-               totalProduitsVendus=totalProduitsVendus+1;
             }
-            if (nbreProduitcourant > nbreProduitMax) {
-            	nbreProduitMax = nbreProduitcourant;
-            	prodMax = prod;
+            if (nbreProduitcourant/2 > nbreProduitMax) {
+            	nbreProduitMax = nbreProduitcourant/2;
             }
         }
         Assertions.assertTrue(nbreProduitMax>totalProduitsVendus/2);
-        
 	}
 	
-}*/
+}
+
