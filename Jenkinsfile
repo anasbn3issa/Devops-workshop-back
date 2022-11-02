@@ -6,7 +6,7 @@ pipeline {
                 echo 'mvn --version'
                 sh """ mvn clean install """;
                 sh """ mvn clean test """;
-                echo 'tik tak 10'
+                echo 'tik tak 0'
             }
         }
         
