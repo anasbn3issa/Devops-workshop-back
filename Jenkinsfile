@@ -9,6 +9,13 @@ pipeline {
                 echo 'tik tak 1'
             }
         }
+        stage('MVN SONARQUBE') {
+            steps {
+                echo 'mvn sonar:sonar'
+                sh """ mvn sonar:sonar -Dsonar.host.url=http://localhost:9000 -Dsonar.login=mytoken """;
+                echo 'tik tak 2'
+            }
+        }
         
     }
     post {
