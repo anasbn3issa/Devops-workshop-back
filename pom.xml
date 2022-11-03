@@ -76,11 +76,6 @@
 		</dependency>
 	</dependencies>
 
-	<properties>
-		<sonar.coverage.jacoco.xmlReportPaths>
-			./target/jacoco-report/jacoco.xml
-		</sonar.coverage.jacoco.xmlReportPaths>
-	</properties>
 	<build>
 		<plugins>
 			<plugin>
