@@ -1,10 +1,13 @@
 package com.esprit.examen;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.esprit.examen.entities.Fournisseur;
@@ -12,6 +15,7 @@ import com.esprit.examen.repositories.FournisseurRepository;
 import com.esprit.examen.services.FournisseurServiceImpl;
 
 @RunWith(SpringRunner.class)
+@SpringBootTest
 public class FournisseurTest {
     @Mock
     private FournisseurRepository fournisseurRepository;
@@ -19,6 +23,12 @@ public class FournisseurTest {
     @InjectMocks
     private FournisseurServiceImpl fournisseurService;
 
+
+    @Before
+    public void init() {
+        MockitoAnnotations.initMocks(this);
+    }
+    
     @Test
     public void testAddFournisseur() {
         Fournisseur fournisseur = new Fournisseur();
@@ -39,16 +49,6 @@ public class FournisseurTest {
     }
 
 
-    // actual unit tests using Junit
-    @Test
-    public void testAddFournisseur2() {
-        Fournisseur fournisseur = new Fournisseur();
-        fournisseur.setCode("code mock");
-        fournisseur.setLibelle("lib mock");
-        Fournisseur f = fournisseurService.addFournisseur(fournisseur);
-        System.out.println("expected Result"+ fournisseur.getCode());
-        org.assertj.core.api.Assertions.assertThat(f.getCode()).isEqualTo("code mock");
-        System.out.println("Actual Result"+ f.getCode());
-    }
+   
 
 }
