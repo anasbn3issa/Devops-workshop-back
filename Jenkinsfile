@@ -77,9 +77,9 @@ pipeline {
     failure {
             emailext body: '${DEFAULT_CONTENT}', recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']], subject: '${DEFAULT_SUBJECT}',
             to: '${DEFAULT_RECIPIENTS}'
-    }
+    }/*
     always {
-			//sh 'docker logout'
-		}
+			sh 'docker logout'
+		}*/
   }
 }
