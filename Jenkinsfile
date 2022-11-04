@@ -5,7 +5,7 @@ pipeline {
         jdk 'JDK11'
     }
     environment {
-		DOCKERHUB_CREDENTIALS=credentials('Docker')
+		DOCKERHUB_CREDENTIALS=credentials('dockerhub')
 	}
     stages {
         stage('test mvn') {
