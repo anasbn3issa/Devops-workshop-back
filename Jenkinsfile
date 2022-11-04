@@ -6,6 +6,7 @@ pipeline {
     }
     environment {
 		DOCKERHUB_CREDENTIALS=credentials('Docker')
+		
 	}
     stages {
         stage ('Initialize') {
@@ -21,6 +22,8 @@ pipeline {
             }
             
         }
+		
+		/*
 		stage('SonarQube analysis') {
             steps {
                 withSonarQubeEnv('sonarqube') {
@@ -32,12 +35,21 @@ pipeline {
             steps {
                 waitForQualityGate abortPipeline: true
             }
-        }
+        }*/
         stage('Package') {
             steps {
                 sh 'mvn -DskipTests clean package' 
             }
         }
+		stage('Publish to Nexus Repository Manager') {
+            steps {
+                script {
+					nexusArtifactUploader artifacts: [[artifactId: 'tpAchatProject', classifier: '', file: 'target/tpAchatProject-1.0.jar', type: 'jar']], credentialsId: 'nexus', groupId: 'com.esprit.examen', nexusUrl: '192.168.31.203:8081', nexusVersion: 'nexus3', protocol: 'http', repository: 'maven-snapshots', version: '1.0'
+				}
+            }
+            
+        }
+		/*
         stage('Build Docker') {
 
 			steps {
@@ -58,7 +70,7 @@ pipeline {
 			steps {
 				sh 'docker push wajdisd/springbootapp:1.0'
 			}
-		}
+		}*/
         
     }
     post {
@@ -67,7 +79,7 @@ pipeline {
             to: '${DEFAULT_RECIPIENTS}'
     }
     always {
-			sh 'docker logout'
+			//sh 'docker logout'
 		}
   }
 }
