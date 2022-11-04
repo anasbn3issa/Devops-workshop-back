@@ -1,73 +1,29 @@
 pipeline {
     agent any
-    tools {
-        maven 'maven3'
-        jdk 'JDK11'
-    }
-    environment {
-		DOCKERHUB_CREDENTIALS=credentials('Docker')
-	}
     stages {
-        stage ('Initialize') {
+        stage('test mvn') {
             steps {
-                sh '''
-                    echo "M2_HOME =${M2_HOME}"
-                '''
+                echo 'mvn --version'
+                sh """ mvn clean install """;
+                sh """ mvn clean test """;
+                echo 'tik tak 1'
             }
         }
-        stage('Test') {
+        stage('MVN SONARQUBE') {
             steps {
-                sh 'mvn test'
-            }
-            
-        }
-		stage('SonarQube analysis') {
-            steps {
-                withSonarQubeEnv('sonarqube') {
-                    sh "mvn sonar:sonar"
-                }
+                echo 'mvn sonar:sonar'
+                sh """ mvn sonar:sonar """;
+                echo 'tik tak 2'
             }
         }
-        stage("Quality gate") {
-            steps {
-                waitForQualityGate abortPipeline: true
-            }
-        }
-        stage('Package') {
-            steps {
-                sh 'mvn -DskipTests clean package' 
-            }
-        }
-        stage('Build Docker') {
-
-			steps {
-				sh 'docker build -t wajdisd/springbootapp:1.0 .'
-			}
-		}
-        stage('Login') {
-
-			steps {
-
-                sh ' docker login -u $DOCKERHUB_CREDENTIALS_USR -p $DOCKERHUB_CREDENTIALS_PSW'                		
-	            echo 'Login Completed'  
-			}
-		}
-
-		stage('Push') {
-
-			steps {
-				sh 'docker push wajdisd/springbootapp:1.0'
-			}
-		}
         
     }
     post {
-    failure {
-            emailext body: '${DEFAULT_CONTENT}', recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']], subject: '${DEFAULT_SUBJECT}',
-            to: '${DEFAULT_RECIPIENTS}'
+        always {  
+             echo 'This will always run'  
+         }  
+        failure {  
+             mail bcc: '', body: "<b>BUILD FAILED</b>", cc: '', charset: 'UTF-8', from: '', mimeType: 'text/html',  subject: "BUILD FAILED", to: "mohamedanas.benaissa@esprit.tn";  
+         }  
     }
-    always {
-			sh 'docker logout'
-		}
-  }
 }
