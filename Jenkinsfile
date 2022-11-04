@@ -1,5 +1,9 @@
 pipeline {
     agent any
+
+    environment {
+		DOCKERHUB_CREDENTIALS=credentials('Docker')
+	}
     stages {
         stage('test mvn') {
             steps {
@@ -18,6 +22,37 @@ pipeline {
                     -Dsonar.login=8f56f3043734867c864e3800f4cdcc189dfacc8b
                         """;
                 echo 'tik tak 2'
+            }
+        }
+
+        stage('Package') {
+            steps {
+                echo 'mvn package'
+                sh """ mvn -DskipTests package """;
+                echo 'tik tak 3'
+            }
+        }
+
+        stage('Build') {
+            steps {
+                echo 'docker build'
+                sh """ docker build -t anasbn3issa/devops-fournisseur . """;
+                echo 'tik tak 4'
+            }
+        }
+        stage('Login Dockerhub') {
+            steps {
+                echo 'docker login'
+                sh """ docker login -u anasbn3issa -p $DOCKERHUB_CREDENTIALS_PSW """;
+                echo 'tik tak 5'
+            }
+        }
+
+        stage('Push') {
+            steps {
+                echo 'docker push'
+                sh """ docker push anasbn3issa/devops-fournisseur """;
+                echo 'tik tak 6'
             }
         }
         
