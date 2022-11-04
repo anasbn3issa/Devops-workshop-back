@@ -8,64 +8,66 @@ pipeline {
 		DOCKERHUB_CREDENTIALS=credentials('dockerhub')
 	}
     stages {
-        stage('test mvn') {
+        stage ('Initialize') {
             steps {
-                echo 'mvn --version'
-                sh """ mvn clean install """;
-                sh """ mvn clean test """;
-                echo 'tik tak 1'
+                sh '''
+                    echo "M2_HOME =${M2_HOME}"
+                '''
             }
         }
-        stage('MVN SONARQUBE') {
+        stage('Test') {
             steps {
-                echo 'mvn sonar:sonar'
-                sh """ mvn sonar:sonar \
-                    -Dsonar.projectKey=devops-fournisseur \
-                    -Dsonar.host.url=http://localhost:9000 \
-                    -Dsonar.login=8f56f3043734867c864e3800f4cdcc189dfacc8b
-                        """;
-                echo 'tik tak 2'
+                sh 'mvn test'
+            }
+            
+        }
+		stage('SonarQube analysis') {
+            steps {
+                withSonarQubeEnv('sonarqube') {
+                    sh "mvn sonar:sonar"
+                }
             }
         }
-
+        stage("Quality gate") {
+            steps {
+                waitForQualityGate abortPipeline: true
+            }
+        }
         stage('Package') {
             steps {
-                echo 'mvn package'
-                sh """ mvn -DskipTests package """;
-                echo 'tik tak 3'
+                sh 'mvn -DskipTests clean package' 
             }
         }
+        stage('Build Docker') {
 
-        stage('Build') {
-            steps {
-                echo 'docker build'
-                sh """ docker build -t anasbn3issa/devops-fournisseur . """;
-                echo 'tik tak 4'
-            }
-        }
-        stage('Login Dockerhub') {
-            steps {
-                echo 'docker login'
-                sh """ docker login -u anasbn3issa -p $DOCKERHUB_CREDENTIALS_PSW """;
-                echo 'tik tak 5'
-            }
-        }
+			steps {
+				sh 'docker build -t wajdisd/springbootapp:1.0 .'
+			}
+		}
+        stage('Login') {
 
-        stage('Push') {
-            steps {
-                echo 'docker push'
-                sh """ docker push anasbn3issa/devops-fournisseur """;
-                echo 'tik tak 6'
-            }
-        }
+			steps {
+
+                sh ' docker login -u $DOCKERHUB_CREDENTIALS_USR -p $DOCKERHUB_CREDENTIALS_PSW'                		
+	            echo 'Login Completed'  
+			}
+		}
+
+		stage('Push') {
+
+			steps {
+				sh 'docker push wajdisd/springbootapp:1.0'
+			}
+		}
         
     }
     post {
-        always {  
-             echo 'This will always run'  
-         }  
-        failure {  
-             mail bcc: '', body: "<b>BUILD FAILED</b>", cc: '', charset: 'UTF-8', from: '', mimeType: 'text/html',  subject: "BUILD FAILED", to: "mohamedanas.benaissa@esprit.tn";  
-         }  
+    failure {
+            emailext body: '${DEFAULT_CONTENT}', recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']], subject: '${DEFAULT_SUBJECT}',
+            to: '${DEFAULT_RECIPIENTS}'
     }
+    always {
+			sh 'docker logout'
+		}
+  }
 }
