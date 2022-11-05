@@ -1,33 +1,45 @@
 pipeline {
     agent any
-
+   
     stages {
-        stage('test mvn') {
+        stage ('Initialize') {
             steps {
-                echo 'mvn --version'
-                sh ""' mvn clean install '""
-                sh ""' mvn clean test '""
-                echo 'tik tak 1'
+                sh '''
+                    echo "M2_HOME =${M2_HOME}"
+                '''
             }
         }
-        stage('MVN SONARQUBE') {
+        stage('Test') {
             steps {
-                echo 'mvn sonar:sonar'
+                sh 'mvn test'
+            }
+            
+        }
+		stage('SonarQube analysis') {
+            steps {
                 sh ''' mvn sonar:sonar \
                     -Dsonar.projectKey=devops-fournisseur \
                     -Dsonar.host.url=http://localhost:9000 \
                     -Dsonar.login=76e19b86c532f4803ce6f271ee4f131f6794f81e '''
-                echo 'tik tak 2'
             }
         }
-
+        
+        stage('Package') {
+            steps {
+                sh 'mvn -DskipTests clean package' 
+            }
+        }
+        
+        
+        
     }
     post {
-        always {
-            echo 'This will always run'
-        }
-        failure {
-            mail bcc: '', body: '<b>BUILD FAILED</b>', cc: '', charset: 'UTF-8', from: '', mimeType: 'text/html',  subject: 'BUILD FAILED', to: 'mohamedanas.benaissa@esprit.tn'
-        }
+    failure {
+            emailext body: '${DEFAULT_CONTENT}', recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']], subject: '${DEFAULT_SUBJECT}',
+            to: '${DEFAULT_RECIPIENTS}'
     }
+    always {
+			sh 'docker logout'
+		}
+  }
 }
