@@ -35,13 +35,6 @@ pipeline {
                 echo 'tik tak 3'
             }
         }
-        stage('Build Docker') {
-            steps {
-                echo 'Build Docker'
-                sh """ docker build -t anasbn3issa/devops-fournisseur . """;
-                echo 'tik tak 4'
-            }
-        }
         
         
         
