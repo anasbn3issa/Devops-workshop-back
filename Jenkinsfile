@@ -13,11 +13,7 @@ pipeline {
         stage('MVN SONARQUBE') {
             steps {
                 echo 'mvn sonar:sonar'
-                sh """ mvn sonar:sonar \
-                    -Dsonar.projectKey=devops-fournisseur \
-                    -Dsonar.host.url=http://localhost:9000 \
-                    -Dsonar.login=8f56f3043734867c864e3800f4cdcc189dfacc8b
-                        """;
+                sh """ mvn sonar:sonar """;
                 echo 'tik tak 2'
             }
         }
