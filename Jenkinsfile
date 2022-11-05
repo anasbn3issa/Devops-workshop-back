@@ -27,17 +27,7 @@ pipeline {
                 echo 'tik tak 2'
             }
         }
-        stage('Quality gate') {
-            steps {
-                echo 'Quality gate'
-                script {
-                    def qg = waitForQualityGate()
-                    if (qg.status != 'OK') {
-                        error "Pipeline aborted due to quality gate failure: ${qg.status}"
-                    }
-                }
-            }
-        }
+        
         stage('Package') {
             steps {
                 echo 'Package'
