@@ -1,6 +1,9 @@
 pipeline {
     agent any
-   
+   environment {
+       dockerImage = ''
+       registry = 'anasbn3issa/devops-fournisseur-image'
+    }
     stages {
         stage ('Initialize') {
             steps {
@@ -29,6 +32,15 @@ pipeline {
                 sh 'mvn -DskipTests clean package' 
             }
         }
+
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    dockerImage = docker.build registry
+                }
+            }
+        }
+
         
         
         
