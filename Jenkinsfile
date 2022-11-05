@@ -4,6 +4,7 @@ pipeline {
 	stage('Checkout GIT'){
 	environment 	{
         	EMAIL_TO = 'cyrine.louati@esprit.tn'
+		maven 'Maven3'
     			}
 	steps {
 		echo 'Pulling from GIT...';
