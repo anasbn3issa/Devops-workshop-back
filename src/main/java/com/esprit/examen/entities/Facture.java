@@ -11,8 +11,11 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import com.esprit.examen.dto.FactureDTO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -22,6 +25,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Facture implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -43,6 +47,19 @@ public class Facture implements Serializable {
     @OneToMany(mappedBy="facture")
     @JsonIgnore
     private Set<Reglement> reglements;
+    
+    public Facture(FactureDTO factureDTO) {
+        this.idFacture = factureDTO.getIdFacture();
+        this.montantRemise = factureDTO.getMontantRemise();
+        this.montantFacture = factureDTO.getMontantFacture();
+        this.dateCreationFacture = factureDTO.getDateCreationFacture();
+        this.dateDerniereModificationFacture = factureDTO.getDateDerniereModificationFacture();
+        this.archivee = factureDTO.getArchivee();
+        this.detailsFacture = factureDTO.getDetailsFacture();
+        this.fournisseur = factureDTO.getFournisseur();
+        this.reglements = factureDTO.getReglements();
+
+    }
 
 	
 }

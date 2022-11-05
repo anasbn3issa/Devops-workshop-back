@@ -11,8 +11,11 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import com.esprit.examen.dto.ProduitDTO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -22,6 +25,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Produit implements Serializable {
 
 	/**
@@ -48,7 +52,18 @@ public class Produit implements Serializable {
 	@JsonIgnore
 	private CategorieProduit categorieProduit;
 	
+	public Produit(ProduitDTO produitDTO) {
+	    this.idProduit = produitDTO.getIdProduit();
+	    this.codeProduit = produitDTO.getCodeProduit();
+	    this.libelleProduit = produitDTO.getLibelleProduit();
+	    this.prix = produitDTO.getPrix();
+	    this.dateCreation = produitDTO.getDateCreation();
+	    this.dateDerniereModification = produitDTO.getDateDerniereModification();
+	    this.stock = produitDTO.getStock();
+	    this.detailFacture = produitDTO.getDetailFacture();
+	    this.categorieProduit = produitDTO.getCategorieProduit();
 
+	}
 
 	
 

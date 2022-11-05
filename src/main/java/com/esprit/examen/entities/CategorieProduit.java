@@ -7,17 +7,23 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+
+import com.esprit.examen.dto.CategorieProduitDTO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Getter
 @Setter
+@ToString
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class CategorieProduit implements Serializable {
 
 	/**
@@ -32,4 +38,14 @@ public class CategorieProduit implements Serializable {
 	@OneToMany(mappedBy = "categorieProduit")
 	@JsonIgnore
 	private Set<Produit> produits;
+	
+	
+	public CategorieProduit(CategorieProduitDTO cProduitDTO) {
+        this.idCategorieProduit = cProduitDTO.getIdCategorieProduit();
+        this.codeCategorie = cProduitDTO.getCodeCategorie();
+        this.libelleCategorie = cProduitDTO.getLibelleCategorie();
+        this.produits = cProduitDTO.getProduits();
+    }
+	
+	
 }
