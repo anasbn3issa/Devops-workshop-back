@@ -28,13 +28,7 @@ pipeline {
             }
         }
         
-        stage('Package') {
-            steps {
-                echo 'Package'
-                sh """ mvn clean package """;
-                echo 'tik tak 3'
-            }
-        }
+       
         
         
         
