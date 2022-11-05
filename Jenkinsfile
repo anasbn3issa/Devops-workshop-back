@@ -1,9 +1,5 @@
 pipeline {
     agent any
-   environment {
-       dockerImage = ''
-       registry = 'anasbn3issa/devops-fournisseur-image'
-    }
     stages {
         stage ('Initialize') {
             steps {
@@ -35,9 +31,12 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                script {
-                    dockerImage = docker.build registry
-                }
+                
+            }
+        }
+        stage('Build Docker Image') {
+            steps {
+                sh 'docker build -t anasbn3issa/fournisseur .'
             }
         }
 
