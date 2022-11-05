@@ -24,6 +24,8 @@ import com.esprit.examen.repositories.ProduitRepository;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 public class ProductServiceImplTest {
+	//Unit tests
+	
 	@Autowired
 	IProduitService productService;
 	
@@ -44,7 +46,17 @@ public class ProductServiceImplTest {
 	
 	//Un produit est appele demande si sa vente depasse la moitie du total des ventes de tous les produits.
 	@Test
+	@Order(0)
+
 	public void produitDemande() {
+		Produit p1 = new Produit();
+		productRepository.save(p1);
+		DetailFacture df0 = new DetailFacture();
+		DetailFacture df00 = new DetailFacture();
+		df0.setProduit(p1);
+		df00.setProduit(p1);
+		detailFactureRepository.save(df0);
+		detailFactureRepository.save(df00);
 		List <DetailFacture> list = detailFactureRepository.findAll();
 		int nbreProduitMax = 0;
 		int nbreProduitcourant = 0;
@@ -65,16 +77,10 @@ public class ProductServiceImplTest {
             }
         }
         if (totalProduitsVendus==0) {
-        	System.out.print("***********CASE 1***********");
-        	System.out.print("***************"+totalProduitsVendus+"***************");
-        	System.out.print("***************"+nbreProduitMax+"***************");
         	Assertions.assertEquals ("Test unitaire", "Test unitaire");
         }
         else
         {
-        	System.out.print("***********CASE 2***********");
-        	System.out.print("***************"+totalProduitsVendus+"***************");
-        	System.out.print("***************"+nbreProduitMax+"***************");
             Assertions.assertTrue(nbreProduitMax>=totalProduitsVendus/2);
         }
 	}
