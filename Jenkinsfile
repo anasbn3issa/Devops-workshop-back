@@ -1,5 +1,12 @@
 pipeline {
     agent any
+    tools {
+        maven 'maven3'
+        jdk 'JDK11'
+    }
+    environment {
+		DOCKERHUB_CREDENTIALS=credentials('Docker')
+	}
     stages {
         stage('test mvn') {
             steps {
@@ -18,6 +25,40 @@ pipeline {
                     -Dsonar.login=8f56f3043734867c864e3800f4cdcc189dfacc8b
                         """;
                 echo 'tik tak 2'
+            }
+        }
+        stage('Quality gate') {
+            steps {
+                echo 'Quality gate'
+                script {
+                    def qg = waitForQualityGate()
+                    if (qg.status != 'OK') {
+                        error "Pipeline aborted due to quality gate failure: ${qg.status}"
+                    }
+                }
+            }
+        }
+        stage('Package') {
+            steps {
+                echo 'Package'
+                sh """ mvn clean package """;
+                echo 'tik tak 3'
+            }
+        }
+        stage('Build Docker') {
+            steps {
+                echo 'Build Docker'
+                sh """ docker build -t anasbn3issa/devops-fournisseur . """;
+                echo 'tik tak 4'
+            }
+        }
+        stage('Push Docker') {
+            steps {
+                echo 'Push Docker'
+                withDockerRegistry([credentialsId: DOCKERHUB_CREDENTIALS, url: ""]) {
+                    sh """ docker push anasbn3issa/devops-fournisseur """;
+                }
+                echo 'tik tak 5'
             }
         }
         
