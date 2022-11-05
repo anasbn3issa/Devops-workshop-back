@@ -1,4 +1,4 @@
-/*
+
 package com.esprit.examen.services;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.log;
@@ -7,10 +7,12 @@ import java.util.List;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.esprit.examen.entities.DetailFacture;
@@ -19,6 +21,7 @@ import com.esprit.examen.repositories.DetailFactureRepository;
 import com.esprit.examen.repositories.ProduitRepository;
 
 @RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest
 public class ProductServiceImplTest {
 	@Autowired
@@ -30,7 +33,6 @@ public class ProductServiceImplTest {
 	@Autowired
 	DetailFactureRepository detailFactureRepository;
 	
-	//Verifier si le total des produits depasse le maximum
 	@Test
 	@Order(1)
 	public void verifierMaxProducts() {
@@ -42,7 +44,6 @@ public class ProductServiceImplTest {
 	
 	//Un produit est appele demande si sa vente depasse la moitie du total des ventes de tous les produits.
 	@Test
-	@Order(0)
 	public void produitDemande() {
 		List <DetailFacture> list = detailFactureRepository.findAll();
 		int nbreProduitMax = 0;
@@ -63,8 +64,20 @@ public class ProductServiceImplTest {
             	nbreProduitMax = nbreProduitcourant/2;
             }
         }
-        Assertions.assertTrue(nbreProduitMax>=totalProduitsVendus/2);
+        if (totalProduitsVendus==0) {
+        	System.out.print("***********CASE 1***********");
+        	System.out.print("***************"+totalProduitsVendus+"***************");
+        	System.out.print("***************"+nbreProduitMax+"***************");
+        	Assertions.assertEquals ("Test unitaire", "Test unitaire");
+        }
+        else
+        {
+        	System.out.print("***********CASE 2***********");
+        	System.out.print("***************"+totalProduitsVendus+"***************");
+        	System.out.print("***************"+nbreProduitMax+"***************");
+            Assertions.assertTrue(nbreProduitMax>=totalProduitsVendus/2);
+        }
 	}
 	
 }
-*/
+
