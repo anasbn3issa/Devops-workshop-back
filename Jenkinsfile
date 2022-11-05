@@ -42,16 +42,7 @@ pipeline {
                 echo 'tik tak 4'
             }
         }
-        stage('Push Docker') {
-            steps {
-                echo 'Push Docker'
-                withCredentials([usernamePassword(credentialsId: 'dockerhub1', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-                    sh """ docker login -u $USERNAME -p $PASSWORD """;
-                    sh """ docker push anasbn3issa/devops-fournisseur """;
-                }
-                echo 'tik tak 5'
-            }
-        }
+        
         
         
     }
