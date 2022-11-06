@@ -20,9 +20,13 @@ import com.esprit.examen.entities.Produit;
 import com.esprit.examen.repositories.DetailFactureRepository;
 import com.esprit.examen.repositories.ProduitRepository;
 
+import lombok.extern.slf4j.Slf4j;
+
 @RunWith(SpringRunner.class)
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
+@Slf4j
+
 public class ProductServiceImplTest {
 	//Unit tests
 	
@@ -38,6 +42,7 @@ public class ProductServiceImplTest {
 	@Test
 	@Order(1)
 	public void verifierMaxProducts() {
+        log.info("verifierMaxProducts" );
 		//Testing JUnit
 		int max=20;
 		int total = productRepository.findAll().size();
@@ -49,23 +54,26 @@ public class ProductServiceImplTest {
 	@Order(0)
 
 	public void produitDemande() {
+        log.info("produitDemande : simple verif si il y a produit demande" );
 		Produit p1 = new Produit();
 		productRepository.save(p1);
 		DetailFacture df0 = new DetailFacture();
-		DetailFacture df00 = new DetailFacture();
 		df0.setProduit(p1);
+		DetailFacture df00 = new DetailFacture();
 		df00.setProduit(p1);
 		detailFactureRepository.save(df0);
 		detailFactureRepository.save(df00);
+		
 		List <DetailFacture> list = detailFactureRepository.findAll();
-		int nbreProduitMax = 0;
-		int nbreProduitcourant = 0;
-		int i = 0;
+
+		//int i = 0;
         //Le produit le plus vendu
         int totalProduitsVendus = 0;
-        
+		int nbreProduitMax = 0;
+		int nbreProduitcourant = 0;
+		
         for (DetailFacture df1 : list) {
-        	i=i+1;
+        //	i=i+1;
             totalProduitsVendus=totalProduitsVendus+1;
             for (DetailFacture df2 : list) {
                 if ( (df1.getProduit().getIdProduit())== (df2.getProduit().getIdProduit())) {
@@ -77,10 +85,12 @@ public class ProductServiceImplTest {
             }
         }
         if (totalProduitsVendus==0) {
+            log.info(" Pas de prods vendus " );
         	Assertions.assertEquals ("Test unitaire", "Test unitaire");
         }
         else
-        {
+        {	log.info(" Vendus : " + totalProduitsVendus );
+        	log.info(" Max repetition : " + nbreProduitMax);
             Assertions.assertTrue(nbreProduitMax>=totalProduitsVendus/2);
         }
 	}

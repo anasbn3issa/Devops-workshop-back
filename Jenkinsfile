@@ -3,17 +3,17 @@ pipeline {
 tools {
         maven 'Maven3'
       }
+environment {
+        EMAIL_TO = 'cyrine.louati@esprit.tn'
+      }
  stages {
 
 	stage('Checkout GIT'){
-	environment 	{
-        	EMAIL_TO = 'cyrine.louati@esprit.tn'
-    			}
+	
 	steps {
 		echo 'Pulling from GIT...';
     		sh """ mvn --version """;
 		sh """ mvn clean install """;
-		sh """ mvn test """;
 		}
 	post 	{
  		failure {
@@ -22,6 +22,15 @@ tools {
                     subject: 'Build failed in Jenkins: $PROJECT_NAME'
         
  			} 
+		}
+	
+	}
+	
+	stage('Unit tests'){
+	
+	steps {
+		echo 'RUN AS : Maven test...';
+		sh """ mvn test """;
 		}
 	
 	}
