@@ -1,5 +1,12 @@
 pipeline {
     agent any
+    options {
+        buildDiscarder(logRotator(numToKeepStr: '5'))
+    }
+
+    environment {
+        DOCKERHUB_CREDENTIALS = credentials('dockerhub-token')
+    }
 
     stages {
         stage ('Initialize') {
@@ -9,12 +16,13 @@ pipeline {
                 '''
             }
         }
-        stage('Test') {
+        /*stage('Test') {
             steps {
                 sh 'mvn test'
             }
             
-        }
+        }*/
+
 		/*stage('SonarQube analysis') {
             steps {
                 sh ''' mvn sonar:sonar \
@@ -38,9 +46,8 @@ pipeline {
 
         stage('Push Docker Image') {
             steps {
-                sh 'echo $dockerhub_PSW | docker login -u anasbn3issa -p 181JMT3048'
+                sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
                 sh 'docker push anasbn3issa/fournisseur'
-
             }
         }
 
