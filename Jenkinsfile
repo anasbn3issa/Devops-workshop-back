@@ -1,5 +1,11 @@
 pipeline {
     agent any
+    tools {
+        maven 'maven-3.6.3'
+    }
+    environment {
+        dockerhub=credentials('dockerhub')
+    }
     stages {
         stage ('Initialize') {
             steps {
@@ -14,14 +20,14 @@ pipeline {
             }
             
         }
-		stage('SonarQube analysis') {
+		/*stage('SonarQube analysis') {
             steps {
                 sh ''' mvn sonar:sonar \
                     -Dsonar.projectKey=devops-fournisseur \
                     -Dsonar.host.url=http://localhost:9000 \
                     -Dsonar.login=76e19b86c532f4803ce6f271ee4f131f6794f81e '''
             }
-        }
+        }*/
         
         stage('Package') {
             steps {
@@ -34,7 +40,16 @@ pipeline {
                 sh 'docker build -t anasbn3issa/fournisseur .'
             }
         } 
-        
+
+        stage('Push Docker Image') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+                    sh 'docker login -u $USERNAME -p $PASSWORD'
+                    sh 'docker push anasbn3issa/fournisseur'
+                }
+            }
+        }
+
     }
     post {
     failure {
