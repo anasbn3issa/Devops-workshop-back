@@ -31,17 +31,9 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                
-            }
-        }
-        stage('Build Docker Image') {
-            steps {
                 sh 'docker build -t anasbn3issa/fournisseur .'
             }
-        }
-
-        
-        
+        } 
         
     }
     post {
