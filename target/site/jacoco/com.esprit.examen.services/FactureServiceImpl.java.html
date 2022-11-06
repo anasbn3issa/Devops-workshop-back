@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>FactureServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">tpAchatProject</a> &gt; <a href="index.source.html" class="el_package">com.esprit.examen.services</a> &gt; <span class="el_source">FactureServiceImpl.java</span></div><h1>FactureServiceImpl.java</h1><pre class="source lang-java linenums">package com.esprit.examen.services;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+import javax.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import com.esprit.examen.entities.DetailFacture;
+import com.esprit.examen.entities.Facture;
+import com.esprit.examen.entities.Fournisseur;
+import com.esprit.examen.entities.Operateur;
+import com.esprit.examen.entities.Produit;
+import com.esprit.examen.repositories.DetailFactureRepository;
+import com.esprit.examen.repositories.FactureRepository;
+import com.esprit.examen.repositories.FournisseurRepository;
+import com.esprit.examen.repositories.OperateurRepository;
+import com.esprit.examen.repositories.ProduitRepository;
+import lombok.extern.slf4j.Slf4j;
+
+@Service
+<span class="fc" id="L24">@Slf4j</span>
+@Transactional
+<span class="fc" id="L26">public class FactureServiceImpl implements IFactureService {</span>
+
+	@Autowired
+	FactureRepository factureRepository;
+	@Autowired
+	OperateurRepository operateurRepository;
+	@Autowired
+	DetailFactureRepository detailFactureRepository;
+	@Autowired
+	FournisseurRepository fournisseurRepository;
+	@Autowired
+	ProduitRepository produitRepository;
+    @Autowired
+    ReglementServiceImpl reglementService;
+	
+	@Override
+	public List&lt;Facture&gt; retrieveAllFactures() {
+<span class="nc" id="L43">		List&lt;Facture&gt; factures =  factureRepository.findAll();</span>
+<span class="nc bnc" id="L44" title="All 2 branches missed.">		for (Facture facture : factures) {</span>
+<span class="nc" id="L45">			log.info(&quot; facture : &quot; + facture);</span>
+<span class="nc" id="L46">		}</span>
+<span class="nc" id="L47">		return factures;</span>
+	}
+
+	
+	public Facture addFacture(Facture f) {
+<span class="nc" id="L52">		return factureRepository.save(f);</span>
+	}
+
+	 /*
+	 * calculer les montants remise et le montant total d'un détail facture
+	 * ainsi que les montants d'une facture
+	 */
+	public Facture addDetailsFacture(Facture f, Set&lt;DetailFacture&gt; detailsFacture) {
+<span class="fc" id="L60">	    log.info(&quot;addDetailsFacture&quot;);</span>
+<span class="fc" id="L61">		float montantFacture = 0;</span>
+<span class="fc" id="L62">		float montantRemise = 0;</span>
+<span class="fc bfc" id="L63" title="All 2 branches covered.">		for (DetailFacture detail : detailsFacture) {</span>
+		    //Récuperer le produit 
+<span class="fc" id="L65">		    Optional&lt;Produit&gt; optionalProduit = produitRepository.findById(detail.getProduit().getIdProduit());</span>
+<span class="pc bpc" id="L66" title="1 of 2 branches missed.">		    if (optionalProduit.isPresent()) {</span>
+<span class="fc" id="L67">		        Produit produit = optionalProduit.get();</span>
+		      //Calculer le montant total pour chaque détail Facture
+<span class="fc" id="L69">	            float prixTotalDetail = detail.getQteCommandee() * produit.getPrix();</span>
+	            //Calculer le montant remise pour chaque détail Facture
+<span class="fc" id="L71">	            float montantRemiseDetail = (prixTotalDetail * detail.getPourcentageRemise()) / 100;</span>
+<span class="fc" id="L72">	            float prixTotalDetailRemise = prixTotalDetail - montantRemiseDetail;</span>
+<span class="fc" id="L73">	            detail.setMontantRemise(montantRemiseDetail);</span>
+<span class="fc" id="L74">	            detail.setPrixTotalDetail(prixTotalDetailRemise);</span>
+	            //Calculer le montant total pour la facture
+<span class="fc" id="L76">	            montantFacture = montantFacture + prixTotalDetailRemise;</span>
+	            //Calculer le montant remise pour la facture
+<span class="fc" id="L78">	            montantRemise = montantRemise + montantRemiseDetail;</span>
+<span class="fc" id="L79">	            detailFactureRepository.save(detail);</span>
+		    }
+			
+<span class="fc" id="L82">		}</span>
+<span class="fc" id="L83">		f.setMontantFacture(montantFacture);</span>
+<span class="fc" id="L84">		f.setMontantRemise(montantRemise);</span>
+<span class="fc" id="L85">		return f;</span>
+	}
+
+	@Override
+	public void cancelFacture(Long factureId) {
+		// Méthode 01
+<span class="nc" id="L91">		Facture facture = factureRepository.findById(factureId).orElse(new Facture());</span>
+<span class="nc" id="L92">		facture.setArchivee(true);</span>
+<span class="nc" id="L93">		factureRepository.save(facture);</span>
+		//Méthode 02 (Avec JPQL)
+<span class="nc" id="L95">		factureRepository.updateFacture(factureId);</span>
+<span class="nc" id="L96">	}</span>
+
+	@Override
+	public Facture retrieveFacture(Long factureId) {
+
+<span class="nc" id="L101">		Facture facture = factureRepository.findById(factureId).orElse(null);</span>
+<span class="nc" id="L102">		log.info(&quot;facture :&quot; + facture);</span>
+<span class="nc" id="L103">		return facture;</span>
+	}
+
+	@Override
+	public List&lt;Facture&gt; getFacturesByFournisseur(Long idFournisseur) {
+<span class="nc" id="L108">		Fournisseur fournisseur = fournisseurRepository.findById(idFournisseur).orElse(null);</span>
+<span class="nc bnc" id="L109" title="All 2 branches missed.">		return fournisseur != null ? (List&lt;Facture&gt;) fournisseur.getFactures() : new ArrayList&lt;&gt;();</span>
+	}
+
+	@Override
+	public void assignOperateurToFacture(Long idOperateur, Long idFacture) {
+<span class="nc" id="L114">		Operateur operateur = operateurRepository.findById(idOperateur).orElse(null);</span>
+<span class="nc bnc" id="L115" title="All 2 branches missed.">	      if(operateur != null ) {</span>
+<span class="nc" id="L116">	          Facture facture = factureRepository.findById(idFacture).orElse(null);</span>
+<span class="nc bnc" id="L117" title="All 2 branches missed.">	          if(facture != null) {</span>
+<span class="nc" id="L118">	          operateur.getFactures().add(facture);</span>
+<span class="nc" id="L119">	          operateurRepository.save(operateur); </span>
+	          }
+	      }
+		
+<span class="nc" id="L123">	}</span>
+
+	@Override
+	public float pourcentageRecouvrement(Date startDate, Date endDate) {
+<span class="nc" id="L127">		float totalFacturesEntreDeuxDates = factureRepository.getTotalFacturesEntreDeuxDates(startDate,endDate);</span>
+<span class="nc" id="L128">		float totalRecouvrementEntreDeuxDates =reglementService.getChiffreAffaireEntreDeuxDate(startDate,endDate);</span>
+<span class="nc" id="L129">		return (totalRecouvrementEntreDeuxDates/totalFacturesEntreDeuxDates)*100;</span>
+	}
+	
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

@@ -1,0 +1,6 @@
+-------------------------------------------------------------------------------
+Test set: com.esprit.examen.services.stockServiceImplWithMockTest
+-------------------------------------------------------------------------------
+Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.041 s - in com.esprit.examen.services.stockServiceImplWithMockTest
+GIVEN_3_STOCKS_WHEN_retrieveAllStocks_THEN_EXPECT_3  Time elapsed: 0.033 s
+GIVEN_2_PRODUCTS_WHEN_addStock_THEN_EXPECT_stock_added  Time elapsed: 0.004 s

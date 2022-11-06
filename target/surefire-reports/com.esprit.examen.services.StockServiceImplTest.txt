@@ -1,0 +1,8 @@
+-------------------------------------------------------------------------------
+Test set: com.esprit.examen.services.StockServiceImplTest
+-------------------------------------------------------------------------------
+Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.224 s - in com.esprit.examen.services.StockServiceImplTest
+GIVEN_2_STOCKS_WHEN_retrieveStatusStock_THEN_EXPECT_1  Time elapsed: 0.119 s
+testDeleteStock  Time elapsed: 0.065 s
+testAddStock  Time elapsed: 0.02 s
+testAddStockOptimized  Time elapsed: 0.015 s
