@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     tools {
-        maven 'M2_HOME'
+        maven 'M2'
         jdk 'JAVA_HOME'
     }
 
@@ -13,8 +13,9 @@ pipeline {
                     git branch: 'main',
                     url: 'https://github.com/Parsath/dev-ops-initiation.git'
 
-                // Run Maven on a Unix agent.
-                sh "mvn -Dmaven.test.failure.ignore=true clean package"
+                // Run Maven on a Unix agent.µ
+                
+                sh 'mvn -DskipTests clean package' 
 
                 // To run Maven on a Windows agent, use
                 // bat "mvn -Dmaven.test.failure.ignore=true clean package"
@@ -31,7 +32,7 @@ pipeline {
         }
         stage('Testing maven') {
             steps {
-                sh """mvn -version"""
+                sh 'mvn -version'
             }
         }
         stage('Checkout GIT') {
