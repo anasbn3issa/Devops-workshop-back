@@ -5,7 +5,7 @@ pipeline {
         openjdk '11.0.16' 
     }
     environment {
-        dockerhub=credentials('dockerhub')
+        dockerhub=credential('dockerhub')
     }
     stages {
         stage ('Initialize') {
