@@ -9,30 +9,27 @@ pipeline {
     }
 
     stages {
-        stage ('Initialize') {
-            steps {
-                sh '''
-                    echo "M2_HOME =${M2_HOME}"
-                '''
-            }
-        }
-        /*stage('Test') {
+        stage('MVN TEST') {
             steps {
                 sh 'mvn test'
             }
-            
-        }*/
+        }
 
-		/*stage('SonarQube analysis') {
+        stage('docker compose up') {
+            steps {
+                sh 'docker compose up'
+            }
+        }
+
+		stage('SonarQube analysis') {
             steps {
                 sh ''' mvn sonar:sonar \
                     -Dsonar.projectKey=devops-fournisseur \
                     -Dsonar.host.url=http://localhost:9000 \
                     -Dsonar.login=76e19b86c532f4803ce6f271ee4f131f6794f81e '''
             }
-        }*/
-        
-        stage('Package') {
+        }
+        stage('MVN PACKAGE') {
             steps {
                 sh 'mvn -DskipTests clean package' 
             }
@@ -50,7 +47,6 @@ pipeline {
                 sh 'docker push anasbn3issa/fournisseur'
             }
         }
-
     }
     post {
     failure {
@@ -59,6 +55,6 @@ pipeline {
     }
     always {
 			sh 'docker logout'
-		}
+	}
   }
 }

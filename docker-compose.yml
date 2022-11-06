@@ -1,26 +1,44 @@
 version: "3.8"
 
 services:
-  sonarqube:
-    image: sonarqube: 8.9.7-community
+
+  sonar:
+    image: sonarqube:8.9.1-community
+    container_name: sonar
     ports:
       - "9000:9000"
-      - "9092:9092"
     volumes:
-    - 'SonarQube_data:/opt/SonarQube/data'
-    - 'SonarQube_extensions : /opt/SonarQube/extensions'
-    - 'SonarQube_logs:/opt/SonarQube/logs'
-    restart: unless-stopped
+      - ./sonarqube/conf:/opt/sonarqube/conf
+      - ./sonarqube/data:/opt/sonarqube/data
+      - ./sonarqube/extensions:/opt/sonarqube/extensions
+      - ./sonarqube/logs:/opt/sonarqube/logs
+      - ./sonarqube/temp:/opt/sonarqube/temp
+
+    environment:  
+      - SONARQUBE_JDBC_USERNAME=admin
+      - SONARQUBE_JDBC_PASSWORD=admin
+      - SONARQUBE_JDBC_URL=jdbc:mysql://mysql:3306/tpAchat?useUnicode=true&characterEncoding=utf8&rewriteBatchedStatements=true&useConfigs=maxPerformance&useSSL=false
+
+    depends_on:
+
+      - db-mysql
+
   nexus:
     image: sonatype/nexus3
     ports:
       - "8081:8081"
-    volumes:
-    - 'nexus-data:/nexus-data'
     restart: unless-stopped
 
-volumes:
-  SonarQube_data:
-  SonarQube_extensions:
-  SonarQube_logs:
-  nexus-data:
+  db-mysql:
+    image: mysql:8
+    restart: unless-stopped
+    env_file: ./.env
+    environment:
+      - MYSQL_ROOT_PASSWORD=
+      - MYSQL_DATABASE=tpAchat
+      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+    ports:
+      - "3306:3306"
+    
+
+
