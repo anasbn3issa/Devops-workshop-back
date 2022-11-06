@@ -15,12 +15,6 @@ pipeline {
             }
         }
 
-        stage('docker compose up') {
-            steps {
-                sh 'docker compose up'
-            }
-        }
-
 		stage('SonarQube analysis') {
             steps {
                 sh ''' mvn sonar:sonar \
