@@ -4,6 +4,8 @@ pipeline {
     tools {
         // Install the Maven version configured as "M2_HOME" and add it to the path.
         maven "M2_HOME"
+        
+        jdk 'JDK11'
     }
 
     stages {
