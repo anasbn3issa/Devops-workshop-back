@@ -1,12 +1,6 @@
 pipeline {
     agent any
-    tools {
-        maven 'maven-3.6.3'
-        openjdk '11.0.16' 
-    }
-    environment {
-        dockerhub=credential('dockerhub')
-    }
+
     stages {
         stage ('Initialize') {
             steps {
@@ -44,7 +38,7 @@ pipeline {
 
         stage('Push Docker Image') {
             steps {
-                sh 'echo $dockerhub_PSW | docker login -u $dockerhub_USR --password-stdin'
+                sh 'echo $dockerhub_PSW | docker login -u anasbn3issa -p 181JMT3048'
                 sh 'docker push anasbn3issa/fournisseur'
 
             }
