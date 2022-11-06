@@ -2,27 +2,6 @@ version: "3.8"
 
 services:
 
-  sonarqube:
-    image: sonarqube:8.9.7-community
-    container_name: sonar
-    ports:
-      - "9000:9000"
-    volumes:
-      - ./sonarqube/conf:/opt/sonarqube/conf
-      - ./sonarqube/data:/opt/sonarqube/data
-      - ./sonarqube/extensions:/opt/sonarqube/extensions
-      - ./sonarqube/logs:/opt/sonarqube/logs
-      - ./sonarqube/temp:/opt/sonarqube/temp
-
-    environment:  
-      - SONARQUBE_JDBC_USERNAME=admin
-      - SONARQUBE_JDBC_PASSWORD=admin
-      - SONARQUBE_JDBC_URL=jdbc:mysql://mysql:3306/tpAchat?useUnicode=true&characterEncoding=utf8&rewriteBatchedStatements=true&useConfigs=maxPerformance&useSSL=false
-
-    depends_on:
-
-      - db-mysql
-
   nexus:
     image: sonatype/nexus3
     ports:
