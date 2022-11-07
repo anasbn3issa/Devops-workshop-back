@@ -86,7 +86,7 @@ public class ProductServiceImplTest {
         }
         if (totalProduitsVendus==0) {
             log.info(" Pas de prods vendus " );
-        	Assertions.assertEquals ("Test unitaire", "Test unitaire");
+        	Assertions.assertEquals (totalProduitsVendus,0);
         }
         else
         {	log.info(" Vendus : " + totalProduitsVendus );
