@@ -5,6 +5,11 @@ pipeline {
         maven 'M2_HOME'
         jdk 'JAVA_HOME'
     }
+    environment {
+        DOCKER_REGISTRY_CREDENTIALS = 'dockerhub'
+        DOCKER_REGISTRY = 'https://index.docker.io/v2/'
+        DOCKER_IMAGE = 'parsath/reglement'
+	}
 
     stages {
         stage('Testing with maven') {
@@ -18,11 +23,21 @@ pipeline {
                     git branch: 'main',
                     url: 'https://github.com/Parsath/dev-ops-initiation.git'
 
-                // Run Maven on a Unix agent.µ
                 sh "mvn -Dmaven.test.failure.ignore=true clean package"
-                // sh 'mvn -DskipTests clean package' 
             }
         }
+
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    docker.withRegistry( '', DOCKER_REGISTRY_CREDENTIALS ) {
+                        def customImage = docker.build("${DOCKER_IMAGE}:latest")
+                        customImage.push()
+                    }
+                }
+                // sh 'docker build -t parsath/reglement .'
+            }
+        } 
         stage('Checkout GIT') {
             steps {
                 echo 'Pulling... ';
@@ -32,15 +47,9 @@ pipeline {
         }
     }
     post {
-        // If Maven was able to run the tests, even if some of the test
-        // failed, record the test results and archive the jar file.
         always {
-            // run junit to generate test reports
             junit '**/target/surefire-reports/TEST-*.xml'
-            // junit '**/target/test-classes/TEST-*.xml'
-
-            // junit '**/reports/junit/*.xml'
-            // archiveArtifacts 'target/*.jar'
+            archiveArtifacts 'target/*.jar'
         }
     }
 }
