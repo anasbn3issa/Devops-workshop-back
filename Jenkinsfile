@@ -27,7 +27,7 @@ pipeline {
             }
         }
 
-        stage('Build Docker Image') {
+        stage('Build and Push Docker Image') {
             steps {
                 script {
                     docker.withRegistry( '', DOCKER_REGISTRY_CREDENTIALS ) {
