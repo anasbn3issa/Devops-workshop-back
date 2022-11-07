@@ -35,6 +35,29 @@ environment {
 	
 	}
 
+	stage('MVN SONARQUBE'){
+	
+	steps {
+		echo 'Analyzing quality of code...';
+
+		}
+	
+	}
+
+	stage('SonarQube analysis') {
+            steps {
+                withSonarQubeEnv('SonarQube') {
+                    sh "mvn sonar:sonar"
+                }
+            }
+        }
+
+        stage("Quality gate") {
+            steps {
+                waitForQualityGate abortPipeline: true
+            }
+        }
+
 
 	}
 }
