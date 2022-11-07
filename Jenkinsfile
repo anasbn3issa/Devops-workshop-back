@@ -18,9 +18,9 @@ pipeline {
                 // sh 'mvn -DskipTests clean package' 
             }
         }
-        stage('Testing maven') {
+        stage('Testing with maven') {
             steps {
-                sh 'mvn -version'
+                sh 'mvn test'
             }
         }
         stage('Checkout GIT') {
