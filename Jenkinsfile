@@ -13,6 +13,7 @@ environment {
 	steps {
 		echo 'Pulling from GIT...';
     		sh """ mvn --version """;
+		echo 'Creating PACKAGE...';
 		sh """ mvn -DskipTests clean install """;
 		}
 	post 	{
@@ -58,12 +59,6 @@ environment {
             }
         }
 	*/
-	
-	 stage("Creating PACKAGE") {
-            steps {
-                 sh 'mvn -DskipTests clean package' 
-            }
-        }
 
 	stage('Nexus') {
             steps {
