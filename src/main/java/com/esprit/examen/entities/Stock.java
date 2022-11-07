@@ -7,8 +7,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+
+import com.esprit.examen.dto.StockDTO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -18,6 +21,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Stock implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -35,6 +39,14 @@ public class Stock implements Serializable {
 		this.libelleStock = libelleStock;
 		this.qte = qte;
 		this.qteMin = qteMin;
+	}
+	
+	public Stock(StockDTO stockDTO) {
+        this.idStock = stockDTO.getIdStock();
+        this.libelleStock = stockDTO.getLibelleStock();
+        this.qte = stockDTO.getQte();
+        this.qteMin = stockDTO.getQteMin();
+        this.produits = stockDTO.getProduits();
 	}
 
 }

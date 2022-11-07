@@ -7,6 +7,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+
+import com.esprit.examen.dto.SecteurActiviteDTO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -31,4 +33,11 @@ public class SecteurActivite implements Serializable{
 	@ManyToMany(mappedBy="secteurActivites")
 	@JsonIgnore
 	private Set<Fournisseur> fournisseurs;
+	
+	public SecteurActivite(SecteurActiviteDTO secteurActiviteDTO) {
+        this.idSecteurActivite = secteurActiviteDTO.getIdSecteurActivite();
+        this.codeSecteurActivite = secteurActiviteDTO.getCodeSecteurActivite();
+        this.libelleSecteurActivite = secteurActiviteDTO.getLibelleSecteurActivite();
+        this.fournisseurs = secteurActiviteDTO.getFournisseurs();
+	}
 }

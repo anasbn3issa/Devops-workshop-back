@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.esprit.examen.dto.CategorieProduitDTO;
 import com.esprit.examen.entities.CategorieProduit;
 import com.esprit.examen.services.ICategorieProduitService;
 import io.swagger.annotations.Api;
@@ -28,8 +30,7 @@ public class CategorieProduitController {
 	@GetMapping("/retrieve-all-categorieProduit")
 	@ResponseBody
 	public List<CategorieProduit> getCategorieProduit() {
-		List<CategorieProduit> list = categorieProduitService.retrieveAllCategorieProduits();
-		return list;
+		return categorieProduitService.retrieveAllCategorieProduits();
 	}
 
 	// http://localhost:8089/SpringMVC/categorieProduit/retrieve-categorieProduit/8
@@ -42,12 +43,11 @@ public class CategorieProduitController {
 	// http://localhost:8089/SpringMVC/categorieProduit/add-categorieProduit
 	@PostMapping("/add-categorieProduit")
 	@ResponseBody
-	public CategorieProduit addCategorieProduit(@RequestBody CategorieProduit cp) {
-		CategorieProduit categorieProduit = categorieProduitService.addCategorieProduit(cp);
-		return categorieProduit;
+	public CategorieProduit addCategorieProduit(@RequestBody CategorieProduitDTO cp) {
+	    CategorieProduit categorieProduit = new CategorieProduit(cp);
+		return categorieProduitService.addCategorieProduit(categorieProduit);
 	}
 
-	// http://localhost:8089/SpringMVC/categorieProduit/remove-categorieProduit/{categorieProduit-id}
 	@DeleteMapping("/remove-categorieProduit/{categorieProduit-id}")
 	@ResponseBody
 	public void removeCategorieProduit(@PathVariable("categorieProduit-id") Long categorieProduitId) {
@@ -55,10 +55,13 @@ public class CategorieProduitController {
 	}
 
 	// http://localhost:8089/SpringMVC/categorieProduit/modify-categorieProduit
-	@PutMapping("/modify-categorieProduit")
+	@PutMapping("/modify-categorieProduit/{categorieProduit-id}")
 	@ResponseBody
-	public CategorieProduit modifyCategorieProduit(@RequestBody CategorieProduit categorieProduit) {
-		return categorieProduitService.updateCategorieProduit(categorieProduit);
+	public CategorieProduit modifyCategorieProduit(@RequestBody CategorieProduitDTO cp, 
+	        @PathVariable("categorieProduit-id") Long categorieProduitId) {
+	       
+	       CategorieProduit categorieProduit = new CategorieProduit(cp);
+		return categorieProduitService.updateCategorieProduit(categorieProduit, categorieProduitId);
 	}
 
 	
