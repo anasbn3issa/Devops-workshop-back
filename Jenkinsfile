@@ -13,7 +13,7 @@ environment {
 	steps {
 		echo 'Pulling from GIT...';
     		sh """ mvn --version """;
-		sh """ mvn clean install """;
+		sh """ mvn -DskipTests clean install """;
 		}
 	post 	{
  		failure {
