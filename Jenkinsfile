@@ -36,7 +36,7 @@ pipeline {
         // failed, record the test results and archive the jar file.
         always {
             // junit '**/reports/junit/*.xml'
-            junit '**/target/surefire-reports/TEST-*.xml'
+            junit '**/target/test-classes/TEST-*.xml'
             // archiveArtifacts 'target/*.jar'
         }
     }
