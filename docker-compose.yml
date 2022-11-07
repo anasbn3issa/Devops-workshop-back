@@ -38,9 +38,11 @@ services:
     build: ./front/devops_front
     container_name: angular-app
     ports:
-      - 4200:4200 #Forwars the exposed port 4200 on the container to port 4200 on the host machine
+      - 4200:80 #Forwars the exposed port 4200 on the container to port 4200 on the host machine
     depends_on:
       - app
+    command: >
+      bash -c "npm start"
 
 volumes:
   db:
