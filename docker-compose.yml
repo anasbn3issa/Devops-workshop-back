@@ -10,8 +10,16 @@ services:
     - 'SonarQube_extensions:/opt/SonarQube/extensions'
     - 'SonarQube_logs:/opt/SonarQube/logs'
     restart: unless-stopped
+  nexus:
+    image: sonatype/nexus3
+    ports:
+      - "8081:8081"
+    volumes:
+    - 'nexus-data:/nexus-data'
+    restart: unless-stopped
 
 volumes:
   SonarQube_data:
   SonarQube_extensions:
   SonarQube_logs:
+  nexus-data: 

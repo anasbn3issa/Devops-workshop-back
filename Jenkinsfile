@@ -26,10 +26,10 @@ environment {
 	
 	}
 	
-	stage('Unit tests'){
+	stage('Unit TESTS'){
 	
 	steps {
-		echo 'RUN AS : Maven test...';
+		echo 'MVN TESTS';
 		sh """ mvn test """;
 		}
 	
@@ -38,12 +38,12 @@ environment {
 	stage('MVN SONARQUBE'){
 	
 	steps {
-		echo 'Analyzing quality of code...';
+		echo 'ANALYZING QUALITY OF CODE...';
 
 		}
 	
 	}
-
+	/*
 	stage('SonarQube analysis') {
             steps {
                 withSonarQubeEnv('SonarQube') {
@@ -56,6 +56,22 @@ environment {
             steps {
                 waitForQualityGate abortPipeline: true
             }
+        }
+	*/
+	
+	 stage("Creating PACKAGE") {
+            steps {
+                 sh 'mvn -DskipTests clean package' 
+            }
+        }
+
+	stage('Nexus') {
+            steps {
+                script {
+		nexusArtifactUploader artifacts: [[artifactId: 'tpAchatProject', classifier: '', file: 'target/tpAchatProject-1.0.jar', type: 'jar']], credentialsId: 'Nexus', groupId: 'com.esprit.examen', nexusUrl: '192.168.1.17:8081', nexusVersion: 'nexus3', protocol: 'http', repository: 'maven-snapshots', version: '1.0.0-SNAPSHOT'
+			}
+            }
+            
         }
 
 
