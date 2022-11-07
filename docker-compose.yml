@@ -41,8 +41,7 @@ services:
       - 4200:80 #Forwars the exposed port 4200 on the container to port 4200 on the host machine
     depends_on:
       - app
-    command: >
-      bash -c "npm start"
+    
 
 volumes:
   db:
