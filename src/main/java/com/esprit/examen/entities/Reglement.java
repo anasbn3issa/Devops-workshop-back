@@ -37,6 +37,14 @@ public class Reglement implements Serializable{
 	@JsonIgnore
 	private Facture facture;
 	
+	public Reglement(float montantPaye, float montantRestant, Boolean payee, Date dateReglement) {
+		super();
+		this.montantPaye = montantPaye;
+		this.montantRestant = montantRestant;
+		this.payee = payee;
+		this.dateReglement = dateReglement;
+	}
+
 	public Reglement(ReglementDTO reglementDTO) {
         this.idReglement = reglementDTO.getIdReglement();
         this.montantPaye = reglementDTO.getMontantPaye();

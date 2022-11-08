@@ -35,7 +35,6 @@ pipeline {
                         customImage.push()
                     }
                 }
-                // sh 'docker build -t parsath/reglement .'
             }
         } 
         stage('Checkout GIT') {
