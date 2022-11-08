@@ -31,7 +31,7 @@ pipeline {
         stage('Deploy to Nexus') {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'nexus', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-                    sh 'mvn deploy:deploy-file -DgroupId=devops-fournisseur -DartifactId=devops-fournisseur -Dversion=1.0.0 -Dpackaging=jar -Dfile=target/devops-fournisseur-1.0.0.jar -Durl=http://localhost:8081/repository/maven-releases/ -DrepositoryId=nexus -DupdateReleaseInfo=true -DgeneratePom=true -DcreateChecksum=true -Dusername=$USERNAME -Dpassword=$PASSWORD'
+                    sh 'mvn deploy:deploy-file -DgroupId=devops-fournisseur -DartifactId=devops-fournisseur -Dversion=1.0.0 -Dpackaging=jar -Dfile=target/tpAchatProject-1.0.jar -Durl=http://localhost:8081/repository/maven-releases/ -DrepositoryId=nexus -DupdateReleaseInfo=true -DgeneratePom=true -DcreateChecksum=true -Dusername=$USERNAME -Dpassword=$PASSWORD'
                 }
             }
         }
