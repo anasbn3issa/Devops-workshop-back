@@ -18,7 +18,6 @@ import com.esprit.examen.services.IFournisseurService;
 
 import io.swagger.annotations.Api;
 
-
 @RestController
 @Api(tags = "Gestion des fournisseurss")
 @RequestMapping("/fournisseur")
@@ -42,7 +41,7 @@ public class FournisseurRestController {
 	@PostMapping("/add-fournisseur")
 	@ResponseBody
 	public Fournisseur addFournisseur(@RequestBody FournisseurDTO f) {
-	    Fournisseur fournisseur = new Fournisseur(f);
+		Fournisseur fournisseur = new Fournisseur(f);
 		return fournisseurService.addFournisseur(fournisseur);
 	}
 
@@ -55,14 +54,15 @@ public class FournisseurRestController {
 	@PutMapping("/modify-fournisseur")
 	@ResponseBody
 	public Fournisseur modifyFournisseur(@RequestBody FournisseurDTO f) {
-	      
-	    Fournisseur fournisseur = new Fournisseur(f);
+
+		Fournisseur fournisseur = new Fournisseur(f);
 		return fournisseurService.updateFournisseur(fournisseur);
 	}
 
-		@PutMapping(value = "/assignSecteurActiviteToFournisseur/{idSecteurActivite}/{idFournisseur}")
-		public void assignProduitToStock(@PathVariable("idSecteurActivite") Long idSecteurActivite, @PathVariable("idFournisseur") Long idFournisseur) {
-			fournisseurService.assignSecteurActiviteToFournisseur(idSecteurActivite, idFournisseur);
-		}
+	@PutMapping(value = "/assignSecteurActiviteToFournisseur/{idSecteurActivite}/{idFournisseur}")
+	public void assignProduitToStock(@PathVariable("idSecteurActivite") Long idSecteurActivite,
+			@PathVariable("idFournisseur") Long idFournisseur) {
+		fournisseurService.assignSecteurActiviteToFournisseur(idSecteurActivite, idFournisseur);
+	}
 
 }

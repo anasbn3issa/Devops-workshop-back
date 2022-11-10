@@ -20,7 +20,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class DetailFournisseur implements Serializable{
+public class DetailFournisseur implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,8 +30,8 @@ public class DetailFournisseur implements Serializable{
 	private Date dateDebutCollaboration;
 	private String adresse;
 	private String matricule;
-	@OneToOne(mappedBy="detailFournisseur")
+	@OneToOne(mappedBy = "detailFournisseur")
 	@JsonIgnore
 	private Fournisseur fournisseur;
-	
+
 }
