@@ -119,10 +119,10 @@ public class ReglementServiceImplTest {
     public void GIVEN_2_REGLEMENTS_WHEN_getChiffreAffaireEntreDeuxDate_THEN_EXPECT_1() {
         Calendar secondDate = Calendar.getInstance();
         Calendar thirdDate = Calendar.getInstance();
-        secondDate.set(Calendar.YEAR, 2010);
+        secondDate.set(Calendar.YEAR, 2023);
         secondDate.set(Calendar.MONTH, Calendar.FEBRUARY);
         secondDate.set(Calendar.DAY_OF_MONTH, 20);
-        thirdDate.set(Calendar.YEAR, 2020);
+        thirdDate.set(Calendar.YEAR, 2024);
         thirdDate.set(Calendar.MONTH, Calendar.NOVEMBER);
         thirdDate.set(Calendar.DAY_OF_MONTH, 22);
         var reglement1 = new Reglement(1000.300F, 0F, true, secondDate.getTime());
@@ -145,8 +145,8 @@ public class ReglementServiceImplTest {
 
         reglementRepository.save(reglement1);
         reglementRepository.save(reglement2);
-        secondDate.set(Calendar.YEAR, 2009);
-        thirdDate.set(Calendar.YEAR, 2019);
+        secondDate.set(Calendar.DAY_OF_MONTH, 19);
+        thirdDate.set(Calendar.DAY_OF_MONTH, 23);
 
         var res = reglementRepository.getChiffreAffaireEntreDeuxDate(secondDate.getTime(), thirdDate.getTime());
         Assertions.assertEquals(1500.33F, res, 0.01);
