@@ -23,7 +23,7 @@ pipeline {
             
         }
 		
-		/*
+		
 		stage('SonarQube analysis') {
             steps {
                 withSonarQubeEnv('sonarqube') {
@@ -35,7 +35,7 @@ pipeline {
             steps {
                 waitForQualityGate abortPipeline: true
             }
-        }*/
+        }
         stage('Package') {
             steps {
                 sh 'mvn -DskipTests clean package' 
