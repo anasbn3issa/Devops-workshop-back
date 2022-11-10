@@ -2,8 +2,7 @@ package com.esprit.examen.services;
 
 import static org.junit.Assert.*;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.Calendar;
 
 import com.esprit.examen.repositories.ReglementRepository;
 import lombok.var;
@@ -21,7 +20,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import com.esprit.examen.entities.Facture;
 import com.esprit.examen.entities.Reglement;
-import lombok.extern.slf4j.Slf4j;
 
 @RunWith(SpringRunner.class)
 @ExtendWith(SpringExtension.class)
@@ -48,9 +46,21 @@ public class ReglementServiceImplTest {
     @Test
     @Order(1)
     public void RetrieveReglements() {
-        var reglement1 = new Reglement(500.03F, 200.2F, false, new Date(2020, 11, 2));
-        var reglement2 = new Reglement(1000.300F, 0F, true, new Date(2018, 10, 5));
-        var reglement3 = new Reglement(0F, 1500.2F, false, new Date(2022, 1, 2));
+        Calendar firstDate = Calendar.getInstance();
+        Calendar secondDate = Calendar.getInstance();
+        Calendar thirdDate = Calendar.getInstance();
+        firstDate.set(Calendar.YEAR, 1988);
+        firstDate.set(Calendar.MONTH, Calendar.JANUARY);
+        firstDate.set(Calendar.DAY_OF_MONTH, 1);
+        secondDate.set(Calendar.YEAR, 2010);
+        secondDate.set(Calendar.MONTH, Calendar.FEBRUARY);
+        secondDate.set(Calendar.DAY_OF_MONTH, 20);
+        thirdDate.set(Calendar.YEAR, 2020);
+        thirdDate.set(Calendar.MONTH, Calendar.NOVEMBER);
+        thirdDate.set(Calendar.DAY_OF_MONTH, 22);
+        var reglement1 = new Reglement(500.03F, 200.2F, false, firstDate.getTime());
+        var reglement2 = new Reglement(1000.300F, 0F, true, secondDate.getTime());
+        var reglement3 = new Reglement(0F, 1500.2F, false, thirdDate.getTime());
 
         reglementRepository.save(reglement1);
         reglementRepository.save(reglement2);
@@ -64,17 +74,25 @@ public class ReglementServiceImplTest {
     @Test
     @Order(2)
     public void testAddReglement() {
-        Reglement r = new Reglement(500.03F, 200.2F, false, new Date(2020, 11, 2));
+        Calendar firstDate = Calendar.getInstance();
+        firstDate.set(Calendar.YEAR, 2022);
+        firstDate.set(Calendar.MONTH, Calendar.JANUARY);
+        firstDate.set(Calendar.DAY_OF_MONTH, 1);
+        Reglement r = new Reglement(500.03F, 200.2F, false, firstDate.getTime());
         Reglement savedReglement = reglementService.addReglement(r);
-        assertNotNull(savedReglement.getMontantPaye());
+        assertNotNull((Float) savedReglement.getMontantPaye());
         reglementService.deleteReglement(savedReglement.getIdReglement());
     }
 
     @Test
     @Order(3)
     public void testAddReglementOptimized() {
+        Calendar firstDate = Calendar.getInstance();
+        firstDate.set(Calendar.YEAR, 2022);
+        firstDate.set(Calendar.MONTH, Calendar.JANUARY);
+        firstDate.set(Calendar.DAY_OF_MONTH, 1);
 
-        Reglement r = new Reglement(0F, 1500.2F, false, new Date(2022, 1, 2));
+        Reglement r = new Reglement(0F, 1500.2F, false, firstDate.getTime());
         Reglement savedReglement = reglementService.addReglement(r);
         assertNotNull(savedReglement.getIdReglement());
         assertEquals(0F, savedReglement.getMontantPaye(), 0.01);
@@ -86,7 +104,11 @@ public class ReglementServiceImplTest {
     @Test
     @Order(4)
     public void testDeleteReglement() {
-        Reglement r = new Reglement(500.03F, 200.2F, false, new Date(2020, 11, 2));
+        Calendar secondDate = Calendar.getInstance();
+        secondDate.set(Calendar.YEAR, 2010);
+        secondDate.set(Calendar.MONTH, Calendar.FEBRUARY);
+        secondDate.set(Calendar.DAY_OF_MONTH, 20);
+        Reglement r = new Reglement(500.03F, 200.2F, false, secondDate.getTime());
         Reglement savedReglement = reglementService.addReglement(r);
         reglementService.deleteReglement(savedReglement.getIdReglement());
         assertNull(reglementService.retrieveReglement(savedReglement.getIdReglement()));
@@ -95,8 +117,16 @@ public class ReglementServiceImplTest {
     @Test
     @Order(5)
     public void GIVEN_2_REGLEMENTS_WHEN_getChiffreAffaireEntreDeuxDate_THEN_EXPECT_1() {
-        var reglement1 = new Reglement(1000.300F, 0F, true, new Date(2018, 10, 5));
-        var reglement2 = new Reglement(500.03F, 200.2F, false, new Date(2020, 11, 2));
+        Calendar secondDate = Calendar.getInstance();
+        Calendar thirdDate = Calendar.getInstance();
+        secondDate.set(Calendar.YEAR, 2010);
+        secondDate.set(Calendar.MONTH, Calendar.FEBRUARY);
+        secondDate.set(Calendar.DAY_OF_MONTH, 20);
+        thirdDate.set(Calendar.YEAR, 2020);
+        thirdDate.set(Calendar.MONTH, Calendar.NOVEMBER);
+        thirdDate.set(Calendar.DAY_OF_MONTH, 22);
+        var reglement1 = new Reglement(1000.300F, 0F, true, secondDate.getTime());
+        var reglement2 = new Reglement(500.03F, 200.2F, false, thirdDate.getTime());
         var f = new Facture();
         f.setIdFacture(4L);
         f.setMontantRemise(5000F);
@@ -115,8 +145,10 @@ public class ReglementServiceImplTest {
 
         reglementRepository.save(reglement1);
         reglementRepository.save(reglement2);
+        secondDate.set(Calendar.YEAR, 2009);
+        thirdDate.set(Calendar.YEAR, 2019);
 
-        var res = reglementRepository.getChiffreAffaireEntreDeuxDate(new Date(2017, 10, 5), new Date(2021, 11, 2));
+        var res = reglementRepository.getChiffreAffaireEntreDeuxDate(secondDate.getTime(), thirdDate.getTime());
         Assertions.assertEquals(1500.33F, res, 0.01);
 
     }

@@ -16,8 +16,8 @@ import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.Date;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 @RunWith(MockitoJUnitRunner.class)
 // @ExtendWith(MockitoExtension.class)
@@ -42,11 +42,21 @@ public class ReglementServiceImplWithMockTest {
     @Test
     public void GIVEN_3_REGLEMENTS_WHEN_retrieveAllReglements_THEN_EXPECT_3() {
         var listReglements = new ArrayList<Reglement>();
-        // add new reglement with Date
-        var reglement1 = new Reglement(500.03F, 200.2F, false, new Date(2020, 11, 2));
-        // initialize new date object with year, month, day
-        var reglement2 = new Reglement(1000.300F, 0F, true, new Date(2018, 10, 5));
-        var reglement3 = new Reglement(0F, 1500.2F, false, new Date(2022, 1, 2));
+        Calendar firstDate = Calendar.getInstance();
+        Calendar secondDate = Calendar.getInstance();
+        Calendar thirdDate = Calendar.getInstance();
+        firstDate.set(Calendar.YEAR, 1988);
+        firstDate.set(Calendar.MONTH, Calendar.JANUARY);
+        firstDate.set(Calendar.DAY_OF_MONTH, 1);
+        secondDate.set(Calendar.YEAR, 2010);
+        secondDate.set(Calendar.MONTH, Calendar.FEBRUARY);
+        secondDate.set(Calendar.DAY_OF_MONTH, 20);
+        thirdDate.set(Calendar.YEAR, 2020);
+        thirdDate.set(Calendar.MONTH, Calendar.NOVEMBER);
+        thirdDate.set(Calendar.DAY_OF_MONTH, 22);
+        var reglement1 = new Reglement(500.03F, 200.2F, false, firstDate.getTime());
+        var reglement2 = new Reglement(1000.300F, 0F, true, secondDate.getTime());
+        var reglement3 = new Reglement(0F, 1500.2F, false, thirdDate.getTime());
         listReglements.add(reglement1);
         listReglements.add(reglement2);
         listReglements.add(reglement3);
@@ -59,10 +69,14 @@ public class ReglementServiceImplWithMockTest {
     public void GIVEN_FACTURE_WHEN_addReglement_THEN_EXPECT_reglement_added() {
         var listReglements = new ArrayList<Reglement>();
         var f = new Facture();
+        Calendar firstDate = Calendar.getInstance();
+        firstDate.set(Calendar.YEAR, 2022);
+        firstDate.set(Calendar.MONTH, Calendar.JANUARY);
+        firstDate.set(Calendar.DAY_OF_MONTH, 1);
         f.setIdFacture(1L);
         f.setMontantRemise(5000F);
         f.setMontantFacture(90000F);
-        var reglement1 = new Reglement((float) 1000.300, (float) 0, true, new Date(2018, 10, 2));
+        var reglement1 = new Reglement((float) 1000.300, (float) 0, true, firstDate.getTime());
         reglement1.setFacture(f);
         Mockito.when(reglementRepository.save(Mockito.any())).thenReturn(reglement1);
         var res = reglementService.addReglement(reglement1);

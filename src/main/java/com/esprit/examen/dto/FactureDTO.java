@@ -4,9 +4,6 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -21,7 +18,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-
 @Getter
 @Setter
 @AllArgsConstructor
@@ -30,7 +26,6 @@ import lombok.Setter;
 public class FactureDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	
 	private Long idFacture;
 	private float montantRemise;
 	private float montantFacture;
@@ -40,10 +35,9 @@ public class FactureDTO implements Serializable {
 	private Date dateDerniereModificationFacture;
 	private Boolean archivee;
 	private Set<DetailFacture> detailsFacture;
-    @JsonIgnore
-    private Fournisseur fournisseur;
-    @JsonIgnore
-    private Set<Reglement> reglements;
+	@JsonIgnore
+	private Fournisseur fournisseur;
+	@JsonIgnore
+	private Set<Reglement> reglements;
 
-	
 }
