@@ -41,8 +41,6 @@ pipeline {
         stage('Deploy to Nexus') {
               steps {
                 script {
-                    artifactPath = filesByGlob[0].path;
-                    artifactExists = fileExists artifactPath;
                     if(artifactExists) {
                         echo "Artifact found: ${artifactPath}";
                         nexusArtifactUploader(
@@ -54,14 +52,8 @@ pipeline {
                             repository: NEXUS_REPOSITORY,
                             credentialsId: NEXUS_CREDENTIAL_ID,
                             artifacts: [
-                                [artifactId: pom.artifactId,
-                                classifier: '',
-                                file: artifactPath,
-                                type: pom.packaging],
-                                [artifactId: pom.artifactId,
-                                classifier: '',
-                                file: "pom.xml",
-                                type: "pom"]
+                                [artifactId: 'tpAchatProject', type: 'jar', file: 'target/tpAchatProject.jar'],
+                                
                             ]
                         );
                     } else {
