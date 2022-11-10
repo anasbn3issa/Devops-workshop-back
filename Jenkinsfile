@@ -18,7 +18,7 @@ pipeline {
         stage('Pulling from GIT') {
             steps {
                 echo 'Pulling... ';
-                    git branch: 'test',
+                    git branch: 'main',
                     url: 'https://github.com/Parsath/dev-ops-initiation.git'
             }
         }
@@ -30,7 +30,7 @@ pipeline {
         stage('Build') {
             steps { 
                 echo 'Building... ';
-                    git branch: 'test',
+                    git branch: 'main',
                     url: 'https://github.com/Parsath/dev-ops-initiation.git'
 
                 sh "mvn -Dmaven.test.failure.ignore=true clean package"
