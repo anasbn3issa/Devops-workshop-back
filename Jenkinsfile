@@ -30,11 +30,7 @@ pipeline {
                 sh 'mvn -DskipTests clean package' 
             }
         }
-        stage('Deploy to Nexus') {
-            steps {
-                sh 'mvn clean package deploy:deploy-file -DgroupId=com.esprit.examen -DartifactId=tpAchatProject -Dversion=1.05 -DgeneratePom=true -Dpackaging=jar -DrepositoryId=deploymentRepo -Durl=http://localhost:8081/repository/maven-releases/ -Dfile=target/tpAchatProject-1.0.jar'
-            }
-        }
+        
         stage('Build Docker Image') {
             steps {
                 sh 'docker build -t anasbn3issa/fournisseur .'
@@ -45,6 +41,12 @@ pipeline {
             steps {
                 sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
                 sh 'docker push anasbn3issa/fournisseur'
+            }
+        }
+
+        stage('Deploy to Nexus') {
+            steps {
+                sh 'mvn clean package deploy:deploy-file -DgroupId=com.esprit.examen -DartifactId=tpAchatProject -Dversion=1.05 -DgeneratePom=true -Dpackaging=jar -DrepositoryId=deploymentRepo -Durl=http://localhost:8081/repository/maven-releases/ -Dfile=target/tpAchatProject-1.0.jar'
             }
         }
     }
