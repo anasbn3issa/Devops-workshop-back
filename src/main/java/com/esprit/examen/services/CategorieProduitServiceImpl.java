@@ -12,12 +12,12 @@ import com.esprit.examen.repositories.CategorieProduitRepository;
 @Service
 public class CategorieProduitServiceImpl implements ICategorieProduitService {
 
-	
 	@Autowired
 	CategorieProduitRepository categorieProduitRepository;
+
 	@Override
 	public List<CategorieProduit> retrieveAllCategorieProduits() {
-		
+
 		return categorieProduitRepository.findAll();
 	}
 
@@ -30,17 +30,17 @@ public class CategorieProduitServiceImpl implements ICategorieProduitService {
 	@Override
 	public void deleteCategorieProduit(Long id) {
 		categorieProduitRepository.deleteById(id);
-		
+
 	}
 
 	@Override
 	public CategorieProduit updateCategorieProduit(CategorieProduit cp, Long id) {
-	    Optional<CategorieProduit> optionalCP = categorieProduitRepository.findById(id);
-        if (optionalCP.isPresent()) {
-		categorieProduitRepository.save(cp);
-		return cp;
-	    }
-        return null;
+		Optional<CategorieProduit> optionalCP = categorieProduitRepository.findById(id);
+		if (optionalCP.isPresent()) {
+			categorieProduitRepository.save(cp);
+			return cp;
+		}
+		return null;
 	}
 
 	@Override

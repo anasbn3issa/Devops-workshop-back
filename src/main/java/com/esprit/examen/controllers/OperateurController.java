@@ -19,7 +19,7 @@ public class OperateurController {
 
 	@Autowired
 	IOperateurService operateurService;
-	
+
 	@GetMapping("/retrieve-all-operateurs")
 	@ResponseBody
 	public List<Operateur> getOperateurs() {
@@ -35,8 +35,8 @@ public class OperateurController {
 	@PostMapping("/add-operateur")
 	@ResponseBody
 	public Operateur addOperateur(@RequestBody OperateurDTO op) {
-	    
-	    Operateur operateur = new Operateur(op);
+
+		Operateur operateur = new Operateur(op);
 		return operateurService.addOperateur(operateur);
 	}
 
@@ -49,10 +49,9 @@ public class OperateurController {
 	@PutMapping("/modify-operateur/{operateur-id}")
 	@ResponseBody
 	public Operateur modifyOperateur(@RequestBody OperateurDTO op, @PathVariable("operateur-id") Long operateurId) {
-	    
-	    Operateur operateur = new Operateur(op);
+
+		Operateur operateur = new Operateur(op);
 		return operateurService.updateOperateur(operateur, operateurId);
 	}
 
-	
 }

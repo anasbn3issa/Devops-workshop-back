@@ -17,7 +17,6 @@ import springfox.documentation.spi.service.contexts.SecurityContext;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
-
 @Configuration
 @EnableSwagger2
 public class SpringFoxSwaggerConfig {
@@ -35,20 +34,19 @@ public class SpringFoxSwaggerConfig {
 				.paths(PathSelectors.any())
 				.build();
 	}
-	
-    private ApiInfo apiEndPointsInfo() {
-        return new ApiInfoBuilder()
-                .title("My STOCK PROJECT")
-                .description("Micro-Service Documentation")
-                .version("1.0.0")
-                .build();
-    }
+
+	private ApiInfo apiEndPointsInfo() {
+		return new ApiInfoBuilder()
+				.title("My STOCK PROJECT")
+				.description("Micro-Service Documentation")
+				.version("1.0.0")
+				.build();
+	}
 
 	private ApiKey apiKey() {
 		return new ApiKey("Bearer", AUTHORIZATION_HEADER, "header");
 	}
-	
-	
+
 	private SecurityContext securityContext() {
 		return SecurityContext.builder()
 				.securityReferences(defaultAuth())
@@ -59,7 +57,7 @@ public class SpringFoxSwaggerConfig {
 		AuthorizationScope authorizationScope = new AuthorizationScope("global", "accessEverything");
 		AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
 		authorizationScopes[0] = authorizationScope;
-		return Arrays.asList(new SecurityReference("Bearer", authorizationScopes)); 
+		return Arrays.asList(new SecurityReference("Bearer", authorizationScopes));
 
 	}
 }

@@ -1,7 +1,5 @@
 package com.esprit.examen.controllers;
 
-
-
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,8 +47,8 @@ public class StockRestController {
 	@PostMapping("/add-stock")
 	@ResponseBody
 	public Stock addStock(@RequestBody StockDTO s) {
-	    
-	    Stock stock = new Stock(s);
+
+		Stock stock = new Stock(s);
 		return stockService.addStock(stock);
 	}
 
@@ -63,8 +61,8 @@ public class StockRestController {
 	@PutMapping("/modify-stock")
 	@ResponseBody
 	public Stock modifyStock(@RequestBody StockDTO s) {
-	    
-	    Stock stock = new Stock(s);
+
+		Stock stock = new Stock(s);
 		return stockService.updateStock(stock);
 	}
 

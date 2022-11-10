@@ -3,7 +3,6 @@ package com.esprit.examen.services;
 import java.util.List;
 import com.esprit.examen.entities.Operateur;
 
-
 public interface IOperateurService {
 
 	List<Operateur> retrieveAllOperateurs();

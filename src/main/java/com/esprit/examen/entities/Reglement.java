@@ -22,7 +22,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Reglement implements Serializable{
+public class Reglement implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -36,7 +36,7 @@ public class Reglement implements Serializable{
 	@ManyToOne
 	@JsonIgnore
 	private Facture facture;
-	
+
 	public Reglement(float montantPaye, float montantRestant, Boolean payee, Date dateReglement) {
 		super();
 		this.montantPaye = montantPaye;
@@ -46,12 +46,12 @@ public class Reglement implements Serializable{
 	}
 
 	public Reglement(ReglementDTO reglementDTO) {
-        this.idReglement = reglementDTO.getIdReglement();
-        this.montantPaye = reglementDTO.getMontantPaye();
-        this.montantRestant = reglementDTO.getMontantRestant();
-        this.payee = reglementDTO.getPayee();
-        this.dateReglement = reglementDTO.getDateReglement();
-        this.facture = reglementDTO.getFacture();
+		this.idReglement = reglementDTO.getIdReglement();
+		this.montantPaye = reglementDTO.getMontantPaye();
+		this.montantRestant = reglementDTO.getMontantRestant();
+		this.payee = reglementDTO.getPayee();
+		this.dateReglement = reglementDTO.getDateReglement();
+		this.facture = reglementDTO.getFacture();
 	}
-	
+
 }

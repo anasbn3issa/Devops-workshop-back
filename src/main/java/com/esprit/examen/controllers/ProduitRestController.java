@@ -20,7 +20,6 @@ import com.esprit.examen.services.IProduitService;
 
 import io.swagger.annotations.Api;
 
-
 @RestController
 @CrossOrigin("*")
 @Api(tags = "Gestion des produits")
@@ -42,11 +41,14 @@ public class ProduitRestController {
 		return produitService.retrieveProduit(produitId);
 	}
 
-	/* Ajouter en produit tout en lui affectant la catégorie produit et le stock associés */
+	/*
+	 * Ajouter en produit tout en lui affectant la catégorie produit et le stock
+	 * associés
+	 */
 	@PostMapping("/add-produit")
 	@ResponseBody
 	public Produit addProduit(@RequestBody ProduitDTO p) {
-	    Produit produit = new Produit(p);
+		Produit produit = new Produit(p);
 		return produitService.addProduit(produit);
 	}
 
@@ -59,8 +61,8 @@ public class ProduitRestController {
 	@PutMapping("/modify-produit")
 	@ResponseBody
 	public Produit modifyProduit(@RequestBody ProduitDTO p) {
-	    
-	    Produit produit = new Produit(p);
+
+		Produit produit = new Produit(p);
 		return produitService.updateProduit(produit);
 	}
 
@@ -72,7 +74,5 @@ public class ProduitRestController {
 	public void assignProduitToStock(@PathVariable("idProduit") Long idProduit, @PathVariable("idStock") Long idStock) {
 		produitService.assignProduitToStock(idProduit, idStock);
 	}
-
-
 
 }

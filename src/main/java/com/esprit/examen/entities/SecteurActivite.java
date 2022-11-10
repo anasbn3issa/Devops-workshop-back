@@ -20,7 +20,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class SecteurActivite implements Serializable{
+public class SecteurActivite implements Serializable {
 	/**
 	 * 
 	 */
@@ -30,14 +30,14 @@ public class SecteurActivite implements Serializable{
 	private Long idSecteurActivite;
 	private String codeSecteurActivite;
 	private String libelleSecteurActivite;
-	@ManyToMany(mappedBy="secteurActivites")
+	@ManyToMany(mappedBy = "secteurActivites")
 	@JsonIgnore
 	private Set<Fournisseur> fournisseurs;
-	
+
 	public SecteurActivite(SecteurActiviteDTO secteurActiviteDTO) {
-        this.idSecteurActivite = secteurActiviteDTO.getIdSecteurActivite();
-        this.codeSecteurActivite = secteurActiviteDTO.getCodeSecteurActivite();
-        this.libelleSecteurActivite = secteurActiviteDTO.getLibelleSecteurActivite();
-        this.fournisseurs = secteurActiviteDTO.getFournisseurs();
+		this.idSecteurActivite = secteurActiviteDTO.getIdSecteurActivite();
+		this.codeSecteurActivite = secteurActiviteDTO.getCodeSecteurActivite();
+		this.libelleSecteurActivite = secteurActiviteDTO.getLibelleSecteurActivite();
+		this.fournisseurs = secteurActiviteDTO.getFournisseurs();
 	}
 }
