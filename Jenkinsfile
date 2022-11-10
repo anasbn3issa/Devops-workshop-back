@@ -41,24 +41,22 @@ pipeline {
         stage('Deploy to Nexus') {
               steps {
                 script {
-                    if(artifactExists) {
-                        echo "Artifact found: ${artifactPath}";
-                        nexusArtifactUploader(
-                            nexusVersion: NEXUS_VERSION,
-                            protocol: NEXUS_PROTOCOL,
-                            nexusUrl: NEXUS_URL,
-                            groupId: pom.groupId,
-                            version: pom.version,
-                            repository: NEXUS_REPOSITORY,
-                            credentialsId: NEXUS_CREDENTIAL_ID,
-                            artifacts: [
-                                [artifactId: 'tpAchatProject', type: 'jar', file: 'target/tpAchatProject.jar'],
-                                
-                            ]
-                        );
-                    } else {
-                        error "*** File: ${artifactPath}, could not be found";
-                    }
+                    
+                    echo "Artifact found: ${artifactPath}";
+                    nexusArtifactUploader(
+                        nexusVersion: NEXUS_VERSION,
+                        protocol: NEXUS_PROTOCOL,
+                        nexusUrl: NEXUS_URL,
+                        groupId: pom.groupId,
+                        version: pom.version,
+                        repository: NEXUS_REPOSITORY,
+                        credentialsId: NEXUS_CREDENTIAL_ID,
+                        artifacts: [
+                            [artifactId: 'tpAchatProject', type: 'jar', file: 'target/tpAchatProject.jar'],
+                            
+                        ]
+                    );
+                    
                 }
             }
           
