@@ -31,11 +31,15 @@ pipeline {
                 }
             }
         }
-        stage("Quality gate") {
-            steps {
-                waitForQualityGate abortPipeline: true
-            }
-        }
+        sleep 10
+		stage("Quality Gate") {
+			timeout(time: 1, unit: 'HOURS') { 
+					def qg = waitForQualityGate() 
+					if (qg.status != 'OK') {
+						error "Pipeline aborted due to quality gate failure: ${qg.status}"
+					}
+			}
+		}
         stage('Package') {
             steps {
                 sh 'mvn -DskipTests clean package' 
