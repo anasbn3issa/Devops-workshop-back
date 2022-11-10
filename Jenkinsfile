@@ -49,7 +49,7 @@ pipeline {
                 script {
                     docker.withRegistry( '', DOCKER_REGISTRY_CREDENTIALS ) {
                         def customImage = docker.build("${DOCKER_IMAGE}:latest")
-                        customImage.push()
+                        customImage.push() 
                     }
                 }
             }
