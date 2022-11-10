@@ -18,14 +18,14 @@ pipeline {
             }
         }
 
-		stage('SonarQube analysis') {
-            steps {
-                sh ''' mvn sonar:sonar \
-                    -Dsonar.projectKey=devops-fournisseur \
-                    -Dsonar.host.url=http://localhost:9000 \
-                    -Dsonar.login=76e19b86c532f4803ce6f271ee4f131f6794f81e '''
-            }
-        }
+		// stage('SonarQube analysis') {
+        //     steps {
+        //         sh ''' mvn sonar:sonar \
+        //             -Dsonar.projectKey=devops-fournisseur \
+        //             -Dsonar.host.url=http://localhost:9000 \
+        //             -Dsonar.login=76e19b86c532f4803ce6f271ee4f131f6794f81e '''
+        //     }
+        // }
         stage('MVN PACKAGE') {
             steps {
                 sh 'mvn -DskipTests clean package' 
@@ -39,7 +39,7 @@ pipeline {
                 // }
 
                 // nexus key : 95075e3d-e40f-3aed-9af0-86b226cc4fa0
-                sh 'mvn deploy:deploy-file -DgroupId=com.esprit.examen -DartifactId=tpAchatProject -Dversion=1.0.1-SNAPSHOT -Dpackaging=jar -Dfile=target/tpAchatProject-1.0.jar -Durl=http://localhost:8081/repository/maven-snapshots/ -DnexusUrl=http://localhost:8081 -DnexusVersion=nexus3 -Drepository=maven-snapshots -DnexusUsername=admin -DnexusPassword=95075e3d-e40f-3aed-9af0-86b226cc4fa0'
+                sh 'mvn deploy:deploy-file -DgroupId=com.esprit.examen -DartifactId=tpAchatProject -Dversion=1.0.1-SNAPSHOT -Dpackaging=jar -Dfile=target/tpAchatProject-1.0.jar -Durl=http://localhost:8081/repository/maven-snapshots/ -DnexusUrl=http://localhost:8081 -DnexusVersion=nexus3 -Drepository=maven-snapshots -DnexusUsername=admin -DnexusKey=95075e3d-e40f-3aed-9af0-86b226cc4fa0'
                 //sh 'mvn deploy -DskipTests -DaltDeploymentRepository=nexus::default::http://localhost:8081/repository/maven-snapshots/ -DnexusUrl=http://localhost:8081 -DnexusVersion=nexus3 -Drepository=maven-snapshots -DnexusUsername=admin -DnexusPassword=181JMT3048'
             }
             
@@ -52,12 +52,12 @@ pipeline {
             }
         } 
 
-        // stage('Push Docker Image') {
-        //     steps {
-        //         sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
-        //         sh 'docker push anasbn3issa/fournisseur'
-        //     }
-        // }
+        stage('Push Docker Image') {
+            steps {
+                sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+                sh 'docker push anasbn3issa/fournisseur'
+            }
+        }
 
         
     }
