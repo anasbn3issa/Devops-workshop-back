@@ -51,7 +51,7 @@ pipeline {
                         repository: NEXUS_REPOSITORY,
                         credentialsId: NEXUS_CREDENTIAL_ID,
                         artifacts: [
-                            [artifactId: 'tpAchatProject', type: 'jar', file: 'target/tpAchatProject.jar'],
+                            [artifactId: 'tpAchatProject-1.0', type: 'jar', file: 'target/tpAchatProject.jar'],
                             
                         ]
                     );
