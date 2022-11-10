@@ -12,6 +12,7 @@ pipeline {
         NEXUS_URL = "192.168.1.21:8081"
         NEXUS_REPOSITORY = "maven-nexus-repo"
         NEXUS_CREDENTIAL_ID = "nexus"
+        NEXUS_REPOSITORY= "https://github.com/anasbn3issa/Devops-workshop-back"
 
     }
 
