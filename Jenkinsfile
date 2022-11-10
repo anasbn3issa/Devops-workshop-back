@@ -74,7 +74,7 @@ environment {
 	
 	steps {
 		echo 'Step 1 : Build image via dockerFile'
-		sh 'docker build -t cyrinelouati/tpachatproject:1.0 .'
+		sh 'docker build -t cyrinelo/tpachatproject:1.0 .'
 		echo 'Checking image'
 		sh 'docker images'
 		}
@@ -85,7 +85,7 @@ environment {
 	
 	steps {
 		echo 'Step 2 : Login'
-		sh 'docker login -u cyrinelouati -p 181JFT0975'
+		sh 'docker login -u cyrinelo -p 181JFT0975'
 		echo 'Successfully logged in.'
 		}
 	
@@ -95,7 +95,7 @@ environment {
 	
 	steps {
 		echo 'Step 3 : Pushing image to Hub'
-		sh 'docker push cyrinelouati/tpachatproject:1.0'
+		sh 'docker push cyrinelo/tpachatproject:1.0'
 		echo 'Push done'
 		}
 	
