@@ -25,7 +25,10 @@ pipeline {
 		
         stage('Package') {
             steps {
-                sh 'mvn -DskipTests clean package \ sleep 5000' 
+                sh '''
+				mvn -DskipTests clean package
+				sleep 5000
+				''' 
             }
         }
 		
