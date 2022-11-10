@@ -22,7 +22,7 @@ pipeline {
                     url: 'https://github.com/Parsath/dev-ops-initiation.git'
             }
         }
-        stage('Testing with maven') {
+        stage('Testing with maven') { 
             steps {
                 sh 'mvn test'
             }
