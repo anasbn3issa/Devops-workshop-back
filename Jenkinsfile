@@ -58,7 +58,7 @@ environment {
                 waitForQualityGate abortPipeline: true
             }
         }
-	*/
+	
 
 	stage('Nexus') {
             steps {
@@ -68,6 +68,10 @@ environment {
             }
             
         }
+	*/
+	
+
+}
 
 
 	}
