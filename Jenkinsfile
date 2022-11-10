@@ -33,11 +33,13 @@ pipeline {
         }
 
         stage('Deploy to Nexus') {
-            steps {
-                withCredentials([usernamePassword(credentialsId: 'nexus', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-                    sh 'mvn clean package deploy:deploy-file -DgroupId=com.esprit.examen -DartifactId=tpAchatProject -DgeneratePom=true -Dpackaging=jar -DrepositoryId=deploymentRepo -Durl=http://localhost:8081/repository/maven-snapshots -Dfile=target/tpAchatProject-1.0.jar -Dusername=$USERNAME -Dpassword=$PASSWORD'
-                }
+              steps {
+                script {
+		nexusArtifactUploader artifacts: [[artifactId: 'tpAchatProject', classifier: '', file: 'target/tpAchatProject-1.0.jar', type: 'jar']], credentialsId: 'NEXUS_CREDENTIALS', groupId: 'com.esprit.examen', nexusUrl: 'localhost:8081', nexusVersion: 'nexus3', protocol: 'http', repository: 'maven-snapshots', version: '1.0.0-SNAPSHOT'
+			}
             }
+            
+        }
         }
         
         stage('Build Docker Image') {
