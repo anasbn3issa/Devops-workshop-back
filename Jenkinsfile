@@ -18,19 +18,20 @@ pipeline {
         stage('Pulling from GIT') {
             steps {
                 echo 'Pulling... ';
-                    git branch: 'main',
+                    git branch: 'test',
                     url: 'https://github.com/Parsath/dev-ops-initiation.git'
             }
         }
         stage('Testing with maven') {
-            steps {
+            // test build from my git
+            steps { 
                 sh 'mvn test'
             }
         }
         stage('Build') {
             steps {
                 echo 'Building... ';
-                    git branch: 'main',
+                    git branch: 'test',
                     url: 'https://github.com/Parsath/dev-ops-initiation.git'
 
                 sh "mvn -Dmaven.test.failure.ignore=true clean package"
@@ -46,7 +47,7 @@ pipeline {
 
         stage('Build and Push Docker Image') {
             steps { 
-                
+
                 script {
                     docker.withRegistry( '', DOCKER_REGISTRY_CREDENTIALS ) {
                         def customImage = docker.build("${DOCKER_IMAGE}:latest")
