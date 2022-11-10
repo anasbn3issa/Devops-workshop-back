@@ -5,6 +5,8 @@ tools {
       }
 environment {
         EMAIL_TO = 'cyrine.louati@esprit.tn'
+	DOCKERLOGIN=credentials('DockerLogin')
+
       }
  stages {
 
@@ -85,12 +87,12 @@ environment {
 	
 	steps {
 		echo 'Step 2 : Login'
-		sh 'docker login -u cyrinelo -p 181JFT0975'
+		sh 'docker login -u $DOCKERLOGIN_USR -p $DOCKERLOGIN_PSW'
 		echo 'Successfully logged in.'
 		}
 	
 	}
-	
+	/*
 	stage('DOCKER : Step 3'){
 	
 	steps {
@@ -98,7 +100,7 @@ environment {
 		sh 'docker push cyrinelo/tpachatproject:1.0'
 		echo 'Push done'
 		}
-	
+	*/
 	}
 	
 
