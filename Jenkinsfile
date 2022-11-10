@@ -41,22 +41,17 @@ pipeline {
         stage('Deploy to Nexus') {
               steps {
                 script {
-                    
-                    nexusArtifactUploader(
-                        nexusVersion: NEXUS_VERSION,
-                        protocol: NEXUS_PROTOCOL,
-                        nexusUrl: NEXUS_URL,
-                        groupId: "com.esprit.examen",
-                        version: "2.0",
-                        repository: NEXUS_REPOSITORY,
-                        credentialsId: NEXUS_CREDENTIAL_ID,
-                        artifacts: [
-                            [artifactId: 'tpAchatProject', type: 'jar', file: 'target/tpAchatProject-1.0.jar'],
-                            
-                        ]
-                    );
-                    
-                }
+					nexusArtifactUploader artifacts: [[artifactId: 'tpAchatProject',
+                     classifier: '', file: 'target/tpAchatProject-1.0.jar', type: 'jar']],
+                      credentialsId: 'nexus', 
+                      groupId: 'com.esprit.examen', 
+                      nexusUrl: '192.168.1.21:8081',
+                       nexusVersion: 'nexus3', 
+                       protocol: 'http', 
+                       repository: 'maven-snapshots',
+                        version: '1.0.0-SNAPSHOT'
+				}
+               
             }
           
             
