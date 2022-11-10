@@ -25,17 +25,17 @@ pipeline {
 		
         stage('Package') {
             steps {
-                sh '''
-				mvn -DskipTests clean package
-				sleep 5000
-				''' 
+                sh 'mvn -DskipTests clean package' 
             }
         }
 		
 		stage('SonarQube analysis') {
             steps {
                 withSonarQubeEnv('sonarqube') {
-                    sh "mvn sonar:sonar"
+                    sh '''
+					mvn sonar:sonar
+					sleep 5
+					'''
                 }
             }
         }
