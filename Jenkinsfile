@@ -69,6 +69,17 @@ environment {
             
         }
 	*/
+
+	stage('DOCKER : Build image'){
+	
+	steps {
+		echo 'Step 1 : Build image via dockerFile'
+		sh 'docker build -t cyrinelo/tpAchatProject:1.0 .'
+		echo 'Step 2 : Checking image'
+		sh 'docker images'
+		}
+	
+	}
 	
 
 
