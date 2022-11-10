@@ -23,18 +23,12 @@ pipeline {
             
         }
 		
-        stage('Package') {
-            steps {
-                sh 'mvn -DskipTests clean package' 
-            }
-        }
-		
 		stage('SonarQube analysis') {
             steps {
                 withSonarQubeEnv('sonarqube') {
                     sh '''
 					mvn sonar:sonar
-					sleep 1
+					sleep 2
 					'''
                 }
             }
@@ -52,6 +46,13 @@ pipeline {
 			}
 			}
 		}
+		
+		stage('Package') {
+            steps {
+                sh 'mvn -DskipTests clean package' 
+            }
+        }
+		
 		stage('Publish to Nexus Repository Manager') {
             steps {
                 script {
