@@ -12,7 +12,7 @@ pipeline {
         stage('MVN TEST') {
             steps {
                 echo 'mvn -v'
-                echo 'mvn -v'
+                sh 'mvn -v'
                 sh 'mvn test'
             }
         }
