@@ -28,7 +28,7 @@ pipeline {
             }
         }
         stage('Build') {
-            steps {
+            steps { 
                 echo 'Building... ';
                     git branch: 'main',
                     url: 'https://github.com/Parsath/dev-ops-initiation.git'
