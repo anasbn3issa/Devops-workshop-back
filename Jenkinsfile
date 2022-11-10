@@ -29,7 +29,7 @@ environment {
 	
 	}
 	
-	stage('Unit TESTS'){
+	stage('TESTS : Unit tests'){
 	
 	steps {
 		echo 'MVN TESTS';
@@ -46,23 +46,25 @@ environment {
 		}
 	
 	}
-	/*
-	stage('SonarQube analysis') {
+	
+	stage('SONAR : Step 1') {
             steps {
+		echo 'SonarQube analysis...';
                 withSonarQubeEnv('SonarQube') {
                     sh "mvn sonar:sonar"
                 }
             }
         }
 
-        stage("Quality gate") {
+        stage("SONAR : Step 2") {
             steps {
+		echo 'Quality Gate...';
                 waitForQualityGate abortPipeline: true
             }
         }
 	
 
-	stage('Nexus') {
+	stage('NEXUS') {
             steps {
                 script {
 		nexusArtifactUploader artifacts: [[artifactId: 'tpAchatProject', classifier: '', file: 'target/tpAchatProject-1.0.jar', type: 'jar']], credentialsId: 'Nexus', groupId: 'com.esprit.examen', nexusUrl: '192.168.1.17:8081', nexusVersion: 'nexus3', protocol: 'http', repository: 'maven-snapshots', version: '1.0.0-SNAPSHOT'
@@ -70,7 +72,7 @@ environment {
             }
             
         }
-	*/
+	
 
 	stage('DOCKER : Step 1'){
 	
