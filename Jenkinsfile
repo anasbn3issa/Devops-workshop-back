@@ -34,7 +34,7 @@ pipeline {
                 withSonarQubeEnv('sonarqube') {
                     sh '''
 					mvn sonar:sonar
-					sleep 5
+					sleep 1
 					'''
                 }
             }
