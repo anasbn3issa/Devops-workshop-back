@@ -45,7 +45,8 @@ pipeline {
         }
 
         stage('Build and Push Docker Image') {
-            steps {
+            steps { 
+                
                 script {
                     docker.withRegistry( '', DOCKER_REGISTRY_CREDENTIALS ) {
                         def customImage = docker.build("${DOCKER_IMAGE}:latest")
