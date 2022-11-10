@@ -100,8 +100,9 @@ environment {
 		sh 'docker push cyrinelo/tpachatproject:1.0'
 		echo 'Push done'
 		}
-	*/
+	
 	}
+	*/
 	
 
 
