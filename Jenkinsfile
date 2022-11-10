@@ -42,13 +42,12 @@ pipeline {
               steps {
                 script {
                     
-                    echo "Artifact found: ${artifactPath}";
                     nexusArtifactUploader(
                         nexusVersion: NEXUS_VERSION,
                         protocol: NEXUS_PROTOCOL,
                         nexusUrl: NEXUS_URL,
-                        groupId: pom.groupId,
-                        version: pom.version,
+                        groupId: com.esprit.examen,
+                        version: 1.0,
                         repository: NEXUS_REPOSITORY,
                         credentialsId: NEXUS_CREDENTIAL_ID,
                         artifacts: [
