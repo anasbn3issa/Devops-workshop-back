@@ -9,9 +9,19 @@ pipeline {
         DOCKER_REGISTRY_CREDENTIALS = 'dockerhub'
         DOCKER_REGISTRY = 'https://index.docker.io/v2/'
         DOCKER_IMAGE = 'parsath/reglement'
+        SONAR_HOST_URL = 'http://172.10.0.140:9000'
+        SONAR_LOGIN = 'admin'
+        SONAR_PASSWORD = 'vagrant'
 	}
 
     stages {
+        stage('Pulling from GIT') {
+            steps {
+                echo 'Pulling... ';
+                    git branch: 'main',
+                    url: 'https://github.com/Parsath/dev-ops-initiation.git'
+            }
+        }
         stage('Testing with maven') {
             steps {
                 sh 'mvn test'
@@ -26,6 +36,13 @@ pipeline {
                 sh "mvn -Dmaven.test.failure.ignore=true clean package"
             }
         }
+        // add sonarqube stage
+        stage('SonarQube') {
+            steps {
+                echo 'SonarQube... ';
+                sh "mvn sonar:sonar -Dsonar.host.url=$SONAR_HOST_URL -Dsonar.login=$SONAR_LOGIN -Dsonar.password=$SONAR_PASSWORD"
+            }
+        }
 
         stage('Build and Push Docker Image') {
             steps {
@@ -37,13 +54,6 @@ pipeline {
                 }
             }
         } 
-        stage('Checkout GIT') {
-            steps {
-                echo 'Pulling... ';
-                    git branch: 'main',
-                    url: 'https://github.com/Parsath/dev-ops-initiation.git'
-            }
-        }
     }
     post {
         always {
