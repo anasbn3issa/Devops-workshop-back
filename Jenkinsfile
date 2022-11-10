@@ -37,7 +37,10 @@ pipeline {
                 // script {
 		        // nexusArtifactUploader artifacts: [[artifactId: 'tpAchatProject', classifier: '', file: 'target/tpAchatProject-1.0.jar', type: 'jar']], credentialsId: 'nexus', groupId: 'com.esprit.examen', nexusUrl: 'localhost:8081', nexusVersion: 'nexus3', protocol: 'http', repository: 'maven-snapshots',version: '1.0.1-SNAPSHOT'
                 // }
-                sh 'mvn deploy -DskipTests -DaltDeploymentRepository=nexus::default::http://localhost:8081/repository/maven-snapshots/ -DnexusUrl=http://localhost:8081 -DnexusVersion=nexus3 -Drepository=maven-snapshots -DnexusUsername=admin -DnexusPassword=181JMT3048'
+
+                // nexus key : 95075e3d-e40f-3aed-9af0-86b226cc4fa0
+                sh 'mvn deploy:deploy-file -DgroupId=com.esprit.examen -DartifactId=tpAchatProject -Dversion=1.0.1-SNAPSHOT -Dpackaging=jar -Dfile=target/tpAchatProject-1.0.jar -Durl=http://localhost:8081/repository/maven-snapshots/ -DnexusUrl=http://localhost:8081 -DnexusVersion=nexus3 -Drepository=maven-snapshots -DnexusUsername=admin -DnexusPassword=95075e3d-e40f-3aed-9af0-86b226cc4fa0'
+                //sh 'mvn deploy -DskipTests -DaltDeploymentRepository=nexus::default::http://localhost:8081/repository/maven-snapshots/ -DnexusUrl=http://localhost:8081 -DnexusVersion=nexus3 -Drepository=maven-snapshots -DnexusUsername=admin -DnexusPassword=181JMT3048'
             }
             
         }
