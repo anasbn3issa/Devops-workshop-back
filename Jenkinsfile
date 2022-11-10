@@ -47,7 +47,7 @@ pipeline {
                         protocol: NEXUS_PROTOCOL,
                         nexusUrl: NEXUS_URL,
                         groupId: "com.esprit.examen",
-                        version: "1.0",
+                        version: "2.0",
                         repository: NEXUS_REPOSITORY,
                         credentialsId: NEXUS_CREDENTIAL_ID,
                         artifacts: [
