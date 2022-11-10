@@ -70,13 +70,23 @@ environment {
         }
 	*/
 
-	stage('DOCKER : Build image'){
+	stage('DOCKER : Step 1'){
 	
 	steps {
 		echo 'Step 1 : Build image via dockerFile'
 		sh 'docker build -t cyrinelo/tpachatproject:1.0 .'
-		echo 'Step 2 : Checking image'
+		echo 'Checking image'
 		sh 'docker images'
+		}
+	
+	}
+
+	stage('DOCKER : Step 2'){
+	
+	steps {
+		echo 'Step 2 : Login'
+		sh 'docker login -u cyrinelo -p 181JFT0975'
+		echo 'Successfully logged in.'
 		}
 	
 	}
