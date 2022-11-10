@@ -25,7 +25,7 @@ public class CategorieProduitController {
 
 	@Autowired
 	ICategorieProduitService categorieProduitService;
-	
+
 	// http://localhost:8089/SpringMVC/categorieProduit/retrieve-all-categorieProduit
 	@GetMapping("/retrieve-all-categorieProduit")
 	@ResponseBody
@@ -44,7 +44,7 @@ public class CategorieProduitController {
 	@PostMapping("/add-categorieProduit")
 	@ResponseBody
 	public CategorieProduit addCategorieProduit(@RequestBody CategorieProduitDTO cp) {
-	    CategorieProduit categorieProduit = new CategorieProduit(cp);
+		CategorieProduit categorieProduit = new CategorieProduit(cp);
 		return categorieProduitService.addCategorieProduit(categorieProduit);
 	}
 
@@ -57,12 +57,11 @@ public class CategorieProduitController {
 	// http://localhost:8089/SpringMVC/categorieProduit/modify-categorieProduit
 	@PutMapping("/modify-categorieProduit/{categorieProduit-id}")
 	@ResponseBody
-	public CategorieProduit modifyCategorieProduit(@RequestBody CategorieProduitDTO cp, 
-	        @PathVariable("categorieProduit-id") Long categorieProduitId) {
-	       
-	       CategorieProduit categorieProduit = new CategorieProduit(cp);
+	public CategorieProduit modifyCategorieProduit(@RequestBody CategorieProduitDTO cp,
+			@PathVariable("categorieProduit-id") Long categorieProduitId) {
+
+		CategorieProduit categorieProduit = new CategorieProduit(cp);
 		return categorieProduitService.updateCategorieProduit(categorieProduit, categorieProduitId);
 	}
 
-	
 }

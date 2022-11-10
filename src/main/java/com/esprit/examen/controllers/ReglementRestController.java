@@ -29,7 +29,6 @@ public class ReglementRestController {
     @Autowired
     IReglementService reglementService;
 
-
     // http://localhost:8089/SpringMVC/reglement/add-reglement
     @PostMapping("/add-reglement")
     @ResponseBody
@@ -37,6 +36,7 @@ public class ReglementRestController {
         Reglement reglement = new Reglement(r);
         return reglementService.addReglement(reglement);
     }
+
     @GetMapping("/retrieve-all-reglements")
     @ResponseBody
     public List<Reglement> getReglement() {

@@ -13,7 +13,8 @@ import com.esprit.examen.repositories.OperateurRepository;
 public class OperateurServiceImpl implements IOperateurService {
 
 	@Autowired
-	OperateurRepository  operateurRepository;
+	OperateurRepository operateurRepository;
+
 	@Override
 	public List<Operateur> retrieveAllOperateurs() {
 		return (List<Operateur>) operateurRepository.findAll();
@@ -28,17 +29,17 @@ public class OperateurServiceImpl implements IOperateurService {
 	@Override
 	public void deleteOperateur(Long id) {
 		operateurRepository.deleteById(id);
-		
+
 	}
 
 	@Override
 	public Operateur updateOperateur(Operateur o, Long id) {
-	    Optional<Operateur> optionalOP = operateurRepository.findById(id);
-        if (optionalOP.isPresent()) {
-    		operateurRepository.save(o);
-    		return o;
-	    }
-	    return null;
+		Optional<Operateur> optionalOP = operateurRepository.findById(id);
+		if (optionalOP.isPresent()) {
+			operateurRepository.save(o);
+			return o;
+		}
+		return null;
 	}
 
 	@Override

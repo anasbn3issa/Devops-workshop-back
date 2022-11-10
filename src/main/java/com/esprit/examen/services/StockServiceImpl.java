@@ -16,7 +16,6 @@ public class StockServiceImpl implements IStockService {
 	@Autowired
 	StockRepository stockRepository;
 
-
 	@Override
 	public List<Stock> retrieveAllStocks() {
 		// récuperer la date à l'instant t1
@@ -36,7 +35,7 @@ public class StockServiceImpl implements IStockService {
 		// récuperer la date à l'instant t1
 		log.info("In method addStock");
 		return stockRepository.save(s);
-		
+
 	}
 
 	@Override
@@ -58,7 +57,7 @@ public class StockServiceImpl implements IStockService {
 		log.info("In method retrieveStock");
 		Stock stock = stockRepository.findById(stockId).orElse(null);
 		log.info("out of method retrieveStock");
-		 long elapsedTime = System.currentTimeMillis() - start;
+		long elapsedTime = System.currentTimeMillis() - start;
 		log.info("Method execution time: " + elapsedTime + " milliseconds.");
 
 		return stock;
@@ -73,11 +72,13 @@ public class StockServiceImpl implements IStockService {
 		String newLine = System.getProperty("line.separator");
 		List<Stock> stocksEnRouge = stockRepository.retrieveStatusStock();
 		for (int i = 0; i < stocksEnRouge.size(); i++) {
-            StringBuilder builder = new StringBuilder();
-            builder.append(newLine).append(finalMessage).append(msgDate).append(newLine).append(": le stock ")
-            .append(stocksEnRouge.get(i).getLibelleStock()).append( " a une quantité de ").append(stocksEnRouge.get(i).getQte())
-            .append(" inférieur à la quantité minimale a ne pas dépasser de ").append(stocksEnRouge.get(i).getQteMin())
-            .append(newLine);
+			StringBuilder builder = new StringBuilder();
+			builder.append(newLine).append(finalMessage).append(msgDate).append(newLine).append(": le stock ")
+					.append(stocksEnRouge.get(i).getLibelleStock()).append(" a une quantité de ")
+					.append(stocksEnRouge.get(i).getQte())
+					.append(" inférieur à la quantité minimale a ne pas dépasser de ")
+					.append(stocksEnRouge.get(i).getQteMin())
+					.append(newLine);
 			finalMessage = builder.toString();
 
 		}

@@ -51,20 +51,18 @@ public class Produit implements Serializable {
 	@ManyToOne
 	@JsonIgnore
 	private CategorieProduit categorieProduit;
-	
+
 	public Produit(ProduitDTO produitDTO) {
-	    this.idProduit = produitDTO.getIdProduit();
-	    this.codeProduit = produitDTO.getCodeProduit();
-	    this.libelleProduit = produitDTO.getLibelleProduit();
-	    this.prix = produitDTO.getPrix();
-	    this.dateCreation = produitDTO.getDateCreation();
-	    this.dateDerniereModification = produitDTO.getDateDerniereModification();
-	    this.stock = produitDTO.getStock();
-	    this.detailFacture = produitDTO.getDetailFacture();
-	    this.categorieProduit = produitDTO.getCategorieProduit();
+		this.idProduit = produitDTO.getIdProduit();
+		this.codeProduit = produitDTO.getCodeProduit();
+		this.libelleProduit = produitDTO.getLibelleProduit();
+		this.prix = produitDTO.getPrix();
+		this.dateCreation = produitDTO.getDateCreation();
+		this.dateDerniereModification = produitDTO.getDateDerniereModification();
+		this.stock = produitDTO.getStock();
+		this.detailFacture = produitDTO.getDetailFacture();
+		this.categorieProduit = produitDTO.getCategorieProduit();
 
 	}
-
-	
 
 }
