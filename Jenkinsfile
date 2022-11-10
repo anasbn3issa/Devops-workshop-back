@@ -46,15 +46,12 @@ pipeline {
 
         stage('Build and Push Docker Image') {
             steps {
-
-                sh "docker build -t $DOCKER_REGISTRY_CREDENTIALS/$DOCKER_IMAGE ."
-                sh "docker push $DOCKER_REGISTRY_CREDENTIALS/${DOCKER_IMAGE}:lastest"
-                // script {
-                //     docker.withRegistry( '', DOCKER_REGISTRY_CREDENTIALS ) {
-                //         def customImage = docker.build("${DOCKER_IMAGE}:latest")
-                //         customImage.push()
-                //     }
-                // }
+                script {
+                    docker.withRegistry( '', DOCKER_REGISTRY_CREDENTIALS ) {
+                        def customImage = docker.build("${DOCKER_IMAGE}:latest")
+                        customImage.push()
+                    }
+                }
             }
         } 
     }
