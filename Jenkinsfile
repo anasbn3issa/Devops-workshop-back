@@ -91,6 +91,16 @@ environment {
 	
 	}
 	
+	stage('DOCKER : Step 3'){
+	
+	steps {
+		echo 'Step 3 : Pushing image to Hub
+		sh 'docker push cyrinelo/tpachatproject:1.0'
+		echo 'Push done.'
+		}
+	
+	}
+	
 
 
 
