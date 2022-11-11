@@ -64,12 +64,12 @@ pipeline {
             }
         } 
 
-        stage('Push Docker Image') {
-            steps {
-                sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
-                sh 'docker push anasbn3issa/fournisseur'
-            }
-        }
+        // stage('Push Docker Image') {
+        //     steps {
+        //         sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+        //         sh 'docker push anasbn3issa/fournisseur'
+        //     }
+        // }
 
         
     }
