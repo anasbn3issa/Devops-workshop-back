@@ -48,20 +48,34 @@ pipeline {
             }
             
         }
-        stage('Build and Push Docker Image') {
-            steps { 
-                withDockerRegistry([ credentialsId: DOCKER_REGISTRY_CREDENTIALS, url: DOCKER_REGISTRY ]) {
-                    sh "docker build -t $DOCKER_IMAGE ."
-                    sh "docker push $DOCKER_IMAGE"
-                }
-                // script {
-                //     docker.withRegistry( '', DOCKER_REGISTRY_CREDENTIALS ) {
-                //         def customImage = docker.build("${DOCKER_IMAGE}:latest")
-                //         customImage.push() 
-                //     }
-                // }
+        // stage('Build and Push Docker Image') {
+        //     steps { 
+        //         withDockerRegistry([ credentialsId: DOCKER_REGISTRY_CREDENTIALS, url: DOCKER_REGISTRY ]) {
+        //             sh "docker build -t $DOCKER_IMAGE ."
+        //             sh "docker push $DOCKER_IMAGE"
+        //         }
+        //         // script {
+        //         //     docker.withRegistry( '', DOCKER_REGISTRY_CREDENTIALS ) {
+        //         //         def customImage = docker.build("${DOCKER_IMAGE}:latest")
+        //         //         customImage.push() 
+        //         //     }
+        //         // }
+        //     }
+        // } 
+
+        
+        stage('Build Docker Image') {
+            steps {
+                    sh "docker build -t $DOCKER_IMAGE:latest ."
             }
         } 
+
+        stage('Push Docker Image') {
+            steps {
+                sh "echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin"
+                sh "docker push $DOCKER_IMAGE:latest"
+            }
+        }
     }
     post {
         always {
