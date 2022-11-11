@@ -8,10 +8,8 @@ pipeline {
     environment {
         NEXUS_CREDENTIALS = credentials('nexus')
         // add docker credentials
-        DOCKER_REGISTRY_CREDENTIALS = credentials('dockerhub')
-        DOCKER_REGISTRY = 'https://index.docker.io/v1/'
-        DOCKERHUB_CREDENTIALS_USR = 'parsath'
-        DOCKERHUB_CREDENTIALS_PSW = 'IWillSucceed2021ParsathDocker'
+        DOCKER_REGISTRY_CREDENTIALS = 'dockerhub'
+        DOCKER_REGISTRY = 'https://index.docker.io/v2/'
         DOCKER_IMAGE = 'parsath/reglement'
         SONAR_HOST_URL = 'http://172.10.0.140:9000'
         SONAR_LOGIN = 'admin'
@@ -74,7 +72,7 @@ pipeline {
         //         sh "docker push $DOCKER_IMAGE:latest"
         //     }
         // }
-        
+
         // build and push docker image using credentials
         // stage('Build and Push Docker Image') {
         //     steps {
