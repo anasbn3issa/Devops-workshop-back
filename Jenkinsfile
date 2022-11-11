@@ -61,7 +61,7 @@ pipeline {
             }
             
         }
-		/*
+		
         stage('Build Docker') {
 
 			steps {
@@ -82,7 +82,7 @@ pipeline {
 			steps {
 				sh 'docker push wajdisd/springbootapp:1.0'
 			}
-		}*/
+		}
         
     }
     post {
