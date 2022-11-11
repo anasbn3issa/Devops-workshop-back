@@ -24,14 +24,14 @@ pipeline {
             }
         }
 
-		// stage('SonarQube analysis') {
-        //     steps {
-        //         sh ''' mvn sonar:sonar \
-        //             -Dsonar.projectKey=devops-fournisseur \
-        //             -Dsonar.host.url=http://localhost:9000 \
-        //             -Dsonar.login=76e19b86c532f4803ce6f271ee4f131f6794f81e '''
-        //     }
-        // }
+		stage('SonarQube analysis') {
+            steps {
+                sh ''' mvn sonar:sonar \
+                    -Dsonar.projectKey=devops-fournisseur \
+                    -Dsonar.host.url=http://localhost:9000 \
+                    -Dsonar.login=76e19b86c532f4803ce6f271ee4f131f6794f81e '''
+            }
+        }
         stage('MVN PACKAGE') {
             steps {
                 sh 'mvn -DskipTests clean package' 
@@ -58,18 +58,18 @@ pipeline {
         }
 
         
-        // stage('Build Docker Image') {
-        //     steps {
-        //         sh 'docker build -t anasbn3issa/fournisseur .'
-        //     }
-        // } 
+        stage('Build Docker Image') {
+            steps {
+                sh 'docker build -t anasbn3issa/fournisseur .'
+            }
+        } 
 
-        // stage('Push Docker Image') {
-        //     steps {
-        //         sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
-        //         sh 'docker push anasbn3issa/fournisseur'
-        //     }
-        // }
+        stage('Push Docker Image') {
+            steps {
+                sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+                sh 'docker push anasbn3issa/fournisseur'
+            }
+        }
 
         
     }
