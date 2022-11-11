@@ -7,8 +7,8 @@ pipeline {
     }
     environment {
         NEXUS_CREDENTIALS = credentials('nexus')
-        // add docker credentials
-        DOCKER_REGISTRY_CREDENTIALS = credentials('dockerhub')
+ 
+        DOCKER_REGISTRY_CREDENTIALS = 'dockerhub'
         DOCKER_REGISTRY = 'https://index.docker.io/v2/'
         DOCKER_IMAGE = 'parsath/reglement'
         SONAR_HOST_URL = 'http://172.10.0.140:9000'
@@ -49,38 +49,11 @@ pipeline {
             }
             
         }
-        // stage('Build and Push Docker Image') {
-        //     steps { 
-        //         withDockerRegistry([ credentialsId: DOCKER_REGISTRY_CREDENTIALS, url: DOCKER_REGISTRY ]) {
-        //             sh "docker build -t $DOCKER_IMAGE ."
-        //             sh "docker push $DOCKER_IMAGE"
-        //         }
-        //         // script {
-        //         //     docker.withRegistry( '', DOCKER_REGISTRY_CREDENTIALS ) {
-        //         //         def customImage = docker.build("${DOCKER_IMAGE}:latest")
-        //         //         customImage.push() 
-        //         //     }
-        //         // }
-        //     }
-        // } 
 
-        
-        // stage('Build Docker Image') {
-        //     steps {
-        //         sh "echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin"
-        //         sh "docker build -t $DOCKER_IMAGE:latest ."
-        //     }
-        // } 
 
-        // stage('Push Docker Image') {
-        //     steps {
-        //         sh "echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin"
-        //         sh "docker push $DOCKER_IMAGE:latest"
-        //     }
-        // }
-        // build and push docker image using credentials
         stage('Build and Push Docker Image') {
-            steps {
+            steps { 
+                
                 script {
                     docker.withRegistry( '', DOCKER_REGISTRY_CREDENTIALS ) {
                         def customImage = docker.build("${DOCKER_IMAGE}:latest")
@@ -88,7 +61,7 @@ pipeline {
                     }
                 }
             }
-        }
+        } 
 
     }
     post {
