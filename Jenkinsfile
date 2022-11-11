@@ -100,7 +100,7 @@ environment {
 		}
 	
 	}
-	/*
+	
 	stage('DOCKER : Step 3'){
 	
 	steps {
@@ -110,7 +110,7 @@ environment {
 		}
 	
 	}
-	*/
+	
 
 	}
 }
