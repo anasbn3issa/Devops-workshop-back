@@ -79,7 +79,7 @@ environment {
 	
 	steps {
 		echo 'Getting image from nexus'
-		sh 'wget --user=$NEXUSLOGIN_USR --password=$NEXUSLOGIN_USW http://localhost:8081/repository/maven-snapshots/com/esprit/examen/tpAchatProject/1.0.0-SNAPSHOT/tpAchatProject-1.0.0-20221107.224803-1.jar'
+		sh 'wget --user=$NEXUSLOGIN_USR --password=$NEXUSLOGIN_PSW http://localhost:8081/repository/maven-snapshots/com/esprit/examen/tpAchatProject/1.0.0-SNAPSHOT/tpAchatProject-1.0.0-20221107.224803-1.jar'
 		sh 'mv tpAchatProject-1.0.0-20221107.224803-1.jar tpAchatProject-1.0.jar'
 		echo 'Step 1 : Build image via dockerFile'
 		sh 'docker build -t cyrinelo/tpachatproject:1.0 .'
