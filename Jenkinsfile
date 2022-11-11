@@ -13,7 +13,7 @@ pipeline {
         DOCKER_IMAGE = 'parsath/reglement'
         SONAR_HOST_URL = 'http://172.10.0.140:9000'
         SONAR_LOGIN = 'admin'
-        SONAR_PASSWORD = 'vagrant'
+        SONAR_PASSWORD = 'vagrant' 
 	}
 
     stages {
