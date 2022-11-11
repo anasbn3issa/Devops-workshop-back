@@ -6,7 +6,7 @@ services:
     image: spring-app
     build: ./
     ports:
-      - "8080:8080"
+      - "8082:8082"
     environment:
       - spring.datasource.driver-class-name=com.mysql.jdbc.Driver
       - server.servlet.context-path=/SpringMVC

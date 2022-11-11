@@ -29,15 +29,20 @@ pipeline {
                 sh 'mvn test'
             }
         }
+        stage('Build') {
+            steps { 
+                sh "mvn -Dmaven.test.failure.ignore=true clean package"
+            }
+        }
+        stage('Launch Docker Compose') {
+            steps {
+                sh 'docker-compose up -d'
+            }
+        }
         stage('SonarQube') {
             steps {
                 echo 'SonarQube... ';
                 sh "mvn sonar:sonar -Dsonar.host.url=$SONAR_HOST_URL -Dsonar.login=$SONAR_LOGIN -Dsonar.password=$SONAR_PASSWORD"
-            }
-        }
-        stage('Build') {
-            steps { 
-                sh "mvn -Dmaven.test.failure.ignore=true clean package"
             }
         }
         stage('Deploy to Nexus') {
@@ -48,11 +53,6 @@ pipeline {
 			    }
             }
             
-        }
-        stage('Launch Docker Compose') {
-            steps {
-                sh 'docker-compose up -d'
-            }
         }
         stage('Build and Push Docker Image') {
             steps {
