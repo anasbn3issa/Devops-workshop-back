@@ -8,9 +8,6 @@ pipeline {
     environment {
         NEXUS_CREDENTIALS = credentials('nexus')
         DOCKER_REGISTRY_CREDENTIALS = credentials('dockerhub')
-        // docker hub credentials
-        DOCKERHUB_CREDENTIALS_USR = 'parsath'
-        DOCKERHUB_CREDENTIALS_PSW = 'IWillSucceed2021ParsathDocker'
         DOCKER_REGISTRY = 'https://index.docker.io/v2/'
         DOCKER_IMAGE = 'parsath/reglement'
         SONAR_HOST_URL = 'http://172.10.0.140:9000'
@@ -51,15 +48,12 @@ pipeline {
             }
             
         }
-        stage('Login') {
-			steps {
-                sh ' docker login -u $DOCKERHUB_CREDENTIALS_USR -p $DOCKERHUB_CREDENTIALS_PSW'                		
-	            echo 'Login Completed'  
-			}
-		}
         stage('Build and Push Docker Image') {
             steps { 
-
+                // withDockerRegistry([ credentialsId: DOCKER_REGISTRY_CREDENTIALS, url: DOCKER_REGISTRY ]) {
+                //     sh "docker build -t $DOCKER_IMAGE ."
+                //     sh "docker push $DOCKER_IMAGE"
+                // }
                 script {
                     docker.withRegistry( '', DOCKER_REGISTRY_CREDENTIALS ) {
                         def customImage = docker.build("${DOCKER_IMAGE}:latest")
