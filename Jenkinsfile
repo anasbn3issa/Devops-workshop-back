@@ -49,31 +49,11 @@ pipeline {
             }
             
         }
-        // stage('Build and Push Docker Image') {
-        //     steps { 
-        //         withDockerRegistry([ credentialsId: DOCKER_REGISTRY_CREDENTIALS, url: DOCKER_REGISTRY ]) {
-        //             sh "docker build -t $DOCKER_IMAGE ."
-        //             sh "docker push $DOCKER_IMAGE"
-        //         }
-        //     }
-        // } 
-
-        
-        // stage('Build Docker Image') {
-        //     steps {
-        //         sh "docker login -u $DOCKERHUB_CREDENTIALS_USR --password $DOCKERHUB_CREDENTIALS_PSW"
-        //         sh "docker build -t $DOCKER_IMAGE:latest ."
-        //     }
-        // } 
-
-        // stage('Push Docker Image') {
-        //     steps {
-        //         sh "docker login -u $DOCKERHUB_CREDENTIALS_USR --password $DOCKERHUB_CREDENTIALS_PSW"
-        //         sh "docker push $DOCKER_IMAGE:latest"
-        //     }
-        // }
-
-        // build and push docker image using credentials
+        stage('Launch Docker Compose') {
+            steps {
+                sh 'docker-compose up -d'
+            }
+        }
         stage('Build and Push Docker Image') {
             steps {
                 script {
