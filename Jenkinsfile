@@ -9,7 +9,7 @@ pipeline {
         NEXUS_CREDENTIALS = credentials('nexus')
         NEXUS_VERSION = "nexus3"
         NEXUS_PROTOCOL = "http"
-        NEXUS_URL = "172.18.3.103:8081"
+        NEXUS_URL = "192.168.177.24:8081"
         NEXUS_CREDENTIAL_ID = "nexus"
         NEXUS_REPOSITORY= "https://github.com/anasbn3issa/Devops-workshop-back"
 
@@ -45,7 +45,7 @@ pipeline {
                      classifier: '', file: 'target/tpAchatProject-1.0.jar', type: 'jar']],
                       credentialsId: 'nexus', 
                       groupId: 'com.esprit.examen', 
-                      nexusUrl: '192.168.1.21:8081',
+                      nexusUrl: '192.168.177.24:8081',
                        nexusVersion: 'nexus3', 
                        protocol: 'http', 
                        repository: 'maven-snapshots',
