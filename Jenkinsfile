@@ -7,7 +7,6 @@ pipeline {
     }
     environment {
         NEXUS_CREDENTIALS = credentials('nexus')
-        // add docker credentials
         DOCKER_REGISTRY_CREDENTIALS = 'dockerhub'
         DOCKER_REGISTRY = 'https://index.docker.io/v2/'
         DOCKER_IMAGE = 'parsath/reglement'
@@ -48,7 +47,6 @@ pipeline {
         stage('Deploy to Nexus') {
               steps {
                 script {
-                    // 
 		        nexusArtifactUploader artifacts: [[artifactId: 'tpAchatProject', classifier: '', file: 'target/tpAchatProject-1.0.jar', type: 'jar']], credentialsId: 'nexus', groupId: 'com.esprit.examen', nexusUrl: 'localhost:8081', nexusVersion: 'nexus3', protocol: 'http', repository: 'maven-snapshots', version: '1.0.0-SNAPSHOT'
 			    }
             }
