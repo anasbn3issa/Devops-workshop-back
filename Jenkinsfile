@@ -7,7 +7,7 @@ pipeline {
     }
     environment {
         NEXUS_CREDENTIALS = credentials('nexus')
-        DOCKER_REGISTRY_CREDENTIALS = credentials('dockerhub')
+        DOCKER_REGISTRY_CREDENTIALS = 'dockerhub'
         DOCKER_REGISTRY = 'https://index.docker.io/v2/'
         DOCKER_IMAGE = 'parsath/reglement'
         SONAR_HOST_URL = 'http://172.10.0.140:9000'
