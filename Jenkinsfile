@@ -1,65 +1,52 @@
 pipeline {
     agent any
-    tools {
-        maven 'maven3'
-        jdk 'JDK11'
+    options {
+        buildDiscarder(logRotator(numToKeepStr: '5'))
     }
+
     environment {
-		DOCKERHUB_CREDENTIALS=credentials('Docker')
-	}
+        DOCKERHUB_CREDENTIALS = credentials('dockerhub-token')
+    }
+
     stages {
-        stage ('Initialize') {
+        stage('MVN TEST') {
             steps {
-                sh '''
-                    echo "M2_HOME =${M2_HOME}"
-                '''
-            }
-        }
-        stage('Test') {
-            steps {
+                echo 'mvn -v'
+                echo 'mvn -v'
                 sh 'mvn test'
             }
-            
         }
+
 		stage('SonarQube analysis') {
             steps {
-                withSonarQubeEnv('sonarqube') {
-                    sh "mvn sonar:sonar"
-                }
+                sh ''' mvn sonar:sonar \
+                    -Dsonar.projectKey=devops-fournisseur \
+                    -Dsonar.host.url=http://localhost:9000 \
+                    -Dsonar.login=76e19b86c532f4803ce6f271ee4f131f6794f81e '''
             }
         }
-        stage("Quality gate") {
-            steps {
-                waitForQualityGate abortPipeline: true
-            }
-        }
-        stage('Package') {
+        stage('MVN PACKAGE') {
             steps {
                 sh 'mvn -DskipTests clean package' 
             }
         }
-        stage('Build Docker') {
+        stage('Deploy to Nexus') {
+            steps {
+                sh 'mvn clean package deploy:deploy-file -DgroupId=com.esprit.examen -DartifactId=tpAchatProject -Dversion=1.05 -DgeneratePom=true -Dpackaging=jar -DrepositoryId=deploymentRepo -Durl=http://localhost:8081/repository/maven-releases/ -Dfile=target/tpAchatProject-1.0.jar'
+            }
+        }
+        stage('Build Docker Image') {
+            steps {
+                sh 'docker build -t anasbn3issa/fournisseur .'
+            }
+        } 
 
-			steps {
-				sh 'docker build -t wajdisd/springbootapp:1.0 .'
-			}
-		}
-        stage('Login') {
-
-			steps {
-
-                sh ' docker login -u $DOCKERHUB_CREDENTIALS_USR -p $DOCKERHUB_CREDENTIALS_PSW'                		
-	            echo 'Login Completed'  
-			}
-		}
-
-		stage('Push') {
-
-			steps {
-				sh 'docker push wajdisd/springbootapp:1.0'
-			}
-		}
-        
+        stage('Push Docker Image') {
+            steps {
+                sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+                sh 'docker push anasbn3issa/fournisseur'
+            }
+        }
     }
     post {
     failure {
@@ -68,6 +55,6 @@ pipeline {
     }
     always {
 			sh 'docker logout'
-		}
+	}
   }
 }

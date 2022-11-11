@@ -1,26 +1,45 @@
 version: "3.8"
 
 services:
-  sonarqube:
-    image: sonarqube: 8.9.7-community
+
+  spring-app:
+    image: spring-app
+    build: ./
     ports:
-      - "9000:9000"
-      - "9092:9092"
+      - "8080:8080"
+    environment:
+      - spring.datasource.driver-class-name=com.mysql.jdbc.Driver
+      - server.servlet.context-path=/SpringMVC
+      - spring.datasource.url="jdbc:mysql://db-mysql:3306/tpachato?createDatabaseIfNotExist=true"
+      - spring.datasource.username=root
+      - spring.datasource.password=root
+      - spring.jpa.show-sql=true
+      - spring.jpa.hibernate.ddl-auto=update
+      - spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQL5InnoDBDialect
+      - logging.level.com.zaxxer.hikari=INFO
+      - logging.level.org.springframework=INFO 
+      - logging.level.root=INFO
+      - logging.pattern.console="%d{yyyy-MM-dd HH:mm:ss} - %-5level - %logger{60} - %msg%n"
+
+        
     volumes:
-    - 'SonarQube_data:/opt/SonarQube/data'
-    - 'SonarQube_extensions : /opt/SonarQube/extensions'
-    - 'SonarQube_logs:/opt/SonarQube/logs'
+      - .m2:/root/.m2
+    stdin_open: true
+    depends_on:
+      - db-mysql
+
+  db-mysql:
+    image: mysql:8
     restart: unless-stopped
-  nexus:
-    image: sonatype/nexus3
+    env_file: ./.env
+    environment:
+      - MYSQL_ROOT_PASSWORD=
+      - MYSQL_DATABASE=tpAchat
+      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
     ports:
-      - "8081:8081"
-    volumes:
-    - 'nexus-data:/nexus-data'
-    restart: unless-stopped
+      - "3306:3306"
+    
+
 
 volumes:
-  SonarQube_data:
-  SonarQube_extensions:
-  SonarQube_logs:
-  nexus-data:
+  db:
