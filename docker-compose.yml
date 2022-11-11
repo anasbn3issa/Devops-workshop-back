@@ -44,7 +44,7 @@ services:
       - "9092:9092"
     volumes:
     - 'SonarQube_data:/opt/SonarQube/data'
-    - 'SonarQube_extensions : /opt/SonarQube/extensions'
+    - 'SonarQube_extensions :/opt/SonarQube/extensions'
     - 'SonarQube_logs:/opt/SonarQube/logs'
     restart: unless-stopped
 
