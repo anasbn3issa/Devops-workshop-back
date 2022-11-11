@@ -9,7 +9,7 @@ pipeline {
         NEXUS_CREDENTIALS = credentials('nexus')
         // add docker credentials
         DOCKER_REGISTRY_CREDENTIALS = credentials('dockerhub')
-        DOCKER_REGISTRY = 'https://index.docker.io/v2/'
+        DOCKER_REGISTRY = 'https://index.docker.io/v1/'
         DOCKERHUB_CREDENTIALS_USR = 'parsath'
         DOCKERHUB_CREDENTIALS_PSW = 'IWillSucceed2021ParsathDocker'
         DOCKER_IMAGE = 'parsath/reglement'
@@ -70,7 +70,7 @@ pipeline {
 
         stage('Push Docker Image') {
             steps {
-                sh "docker login -u $DOCKERHUB_CREDENTIALS_USR --password $"
+                sh "docker login -u $DOCKERHUB_CREDENTIALS_USR --password $DOCKERHUB_CREDENTIALS_PSW"
                 sh "docker push $DOCKER_IMAGE:latest"
             }
         }
