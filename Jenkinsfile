@@ -70,6 +70,7 @@ pipeline {
         //         sh 'docker push anasbn3issa/fournisseur'
         //     }
         // }
+        //
 
         
     }
