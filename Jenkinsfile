@@ -64,19 +64,31 @@ pipeline {
         // } 
 
         
-        stage('Build Docker Image') {
-            steps {
-                sh "echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin"
-                sh "docker build -t $DOCKER_IMAGE:latest ."
-            }
-        } 
+        // stage('Build Docker Image') {
+        //     steps {
+        //         sh "echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin"
+        //         sh "docker build -t $DOCKER_IMAGE:latest ."
+        //     }
+        // } 
 
-        stage('Push Docker Image') {
+        // stage('Push Docker Image') {
+        //     steps {
+        //         sh "echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin"
+        //         sh "docker push $DOCKER_IMAGE:latest"
+        //     }
+        }
+        // build and push docker image using credentials
+        stage('Build and Push Docker Image') {
             steps {
-                sh "echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin"
-                sh "docker push $DOCKER_IMAGE:latest"
+                script {
+                    docker.withRegistry( '', DOCKER_REGISTRY_CREDENTIALS ) {
+                        def customImage = docker.build("${DOCKER_IMAGE}:latest")
+                        customImage.push()
+                    }
+                }
             }
         }
+
     }
     post {
         always {
