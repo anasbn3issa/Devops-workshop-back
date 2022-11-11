@@ -7,6 +7,7 @@ pipeline {
     }
     environment {
         NEXUS_CREDENTIALS = credentials('nexus')
+        // add docker credentials
         DOCKER_REGISTRY_CREDENTIALS = credentials('dockerhub')
         DOCKER_REGISTRY = 'https://index.docker.io/v2/'
         DOCKER_IMAGE = 'parsath/reglement'
@@ -81,9 +82,9 @@ pipeline {
         stage('Build and Push Docker Image') {
             steps {
                 script {
-                    docker.withRegistry( DOCKER_REGISTRY, DOCKER_REGISTRY_CREDENTIALS ) {
+                    docker.withRegistry( '', DOCKER_REGISTRY_CREDENTIALS ) {
                         def customImage = docker.build("${DOCKER_IMAGE}:latest")
-                        customImage.push()
+                        customImage.push() 
                     }
                 }
             }
