@@ -46,7 +46,7 @@ environment {
 		}
 	
 	}
-	
+	/*
 	stage('SONAR : Step 1') {
             steps {
 		echo 'SonarQube analysis...';
@@ -62,7 +62,7 @@ environment {
                 waitForQualityGate abortPipeline: true
             }
         }
-	
+	*/
 
 	stage('NEXUS') {
             steps {
