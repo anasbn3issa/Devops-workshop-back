@@ -7,7 +7,7 @@ pipeline {
     }
     environment {
         NEXUS_CREDENTIALS = credentials('nexus')
-        DOCKER_REGISTRY_CREDENTIALS = 'dockerhub'
+        DOCKER_REGISTRY_CREDENTIALS = credentials('dockerhub')
         // docker hub credentials
         DOCKERHUB_CREDENTIALS_USR = 'parsath'
         DOCKERHUB_CREDENTIALS_PSW = 'IWillSucceed2021ParsathDocker'
@@ -35,11 +35,6 @@ pipeline {
             steps {
                 echo 'SonarQube... ';
                 sh "mvn sonar:sonar -Dsonar.host.url=$SONAR_HOST_URL -Dsonar.login=$SONAR_LOGIN -Dsonar.password=$SONAR_PASSWORD"
-            }
-        }
-        stage("Quality gate") {
-            steps {
-                waitForQualityGate abortPipeline: true
             }
         }
         stage('Build') {
