@@ -50,7 +50,7 @@ environment {
 	
 	stage('SONAR : Step 1') {
             steps {
-		echo 'SonarQube analysis...';
+		echo 'SonarQube analysis..';
                 withSonarQubeEnv('SonarQube') {
                     sh "mvn sonar:sonar"
                 }
