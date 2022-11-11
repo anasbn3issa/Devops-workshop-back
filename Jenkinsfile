@@ -56,11 +56,12 @@ environment {
                 }
             }
         }
-
+	
+	
         stage("SONAR : Step 2") {
             steps {
 		echo 'Quality Gate...';
-                waitForQualityGate abortPipeline: true
+                waitForQualityGate abortPipeline: false
             }
         }
 	
