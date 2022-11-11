@@ -1,4 +1,4 @@
 FROM openjdk:8
 EXPOSE 8080
-ADD tpAchatProject-1.0.jar tpAchatProject-1.0.jar
+ADD Artifact.jar tpAchatProject-1.0.jar
 ENTRYPOINT ["java", "-jar", "/tpAchatProject-1.0.jar"]
