@@ -80,7 +80,7 @@ pipeline {
                 sh "docker push $DOCKER_IMAGE:latest"
             }
         }
-        build and push docker image using credentials
+        // build and push docker image using credentials
         // stage('Build and Push Docker Image') {
         //     steps {
         //         script {
