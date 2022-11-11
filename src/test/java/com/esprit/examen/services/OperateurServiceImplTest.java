@@ -1,6 +1,5 @@
 package com.esprit.examen.services;
 
-
 import com.esprit.examen.entities.*;
 import com.esprit.examen.repositories.FactureRepository;
 import com.esprit.examen.repositories.OperateurRepository;
@@ -10,14 +9,10 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.context.junit4.SpringRunner;
 
-
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 
@@ -36,19 +31,17 @@ public class OperateurServiceImplTest {
     OperateurServiceImpl operateurService;
 
     @BeforeEach
-    void
-    setUp() {
+    void setUp() {
         operateurRepository.deleteAll();
     }
 
     @AfterEach
-    void
-    setDown() {
+    void setDown() {
         operateurRepository.deleteAll();
     }
 
     @Test
-    public void retrieveAllOperateurs(){
+    public void retrieveAllOperateurs() {
         var facture = new Facture();
         facture.setMontantRemise(0.5F);
         facture.setArchivee(true);
@@ -68,23 +61,24 @@ public class OperateurServiceImplTest {
         operateurRepository.save(operateur);
 
         var rs = operateurService.retrieveAllOperateurs();
-        Assertions.assertEquals(1 , rs.size());
-        Assertions.assertEquals("mohsen",rs.get(0).getNom());
+        Assertions.assertEquals(1, rs.size());
+        Assertions.assertEquals("mohsen", rs.get(0).getNom());
         Assertions.assertNotNull(operateur.getFactures());
     }
 
     @Test
-    public void addOperateur(){
-        var operateur = new Operateur(1L,"mohsen","mohsen","123456",new HashSet<Facture>());
+    public void addOperateur() {
+        var operateur = new Operateur(1L, "mohsen", "mohsen", "123456", new HashSet<Facture>());
         var rs = operateurService.addOperateur(operateur);
 
-        Assertions.assertEquals("mohsen",rs.getNom());
-        Assertions.assertEquals("mohsen",rs.getPrenom());
-        Assertions.assertEquals("123456",rs.getPassword());
+        Assertions.assertEquals("mohsen", rs.getNom());
+        Assertions.assertEquals("mohsen", rs.getPrenom());
+        Assertions.assertEquals("123456", rs.getPassword());
 
     }
+
     @Test
-    public void deleteOperateur(){
+    public void deleteOperateur() {
         var operateur = new Operateur();
         operateur.setNom("mohsen");
         operateur.setPrenom("mohsen");
@@ -96,7 +90,7 @@ public class OperateurServiceImplTest {
     }
 
     @Test
-    public void updateOperateur(){
+    public void updateOperateur() {
         var operateur = new Operateur();
         operateur.setNom("mohsen");
         operateur.setPrenom("mohsen");
@@ -105,13 +99,13 @@ public class OperateurServiceImplTest {
         var rs = operateurService.retrieveOperateur(op.getIdOperateur());
         rs.setPrenom("mohsen2");
         rs.setPassword("123");
-        var rs2 = operateurService.updateOperateur(rs,op.getIdOperateur());
-        Assertions.assertEquals("mohsen2",rs2.getPrenom());
-        Assertions.assertEquals("123",rs2.getPassword());
+        var rs2 = operateurService.updateOperateur(rs, op.getIdOperateur());
+        Assertions.assertEquals("mohsen2", rs2.getPrenom());
+        Assertions.assertEquals("123", rs2.getPassword());
     }
 
     @Test
-    public void retrieveOperateur(){
+    public void retrieveOperateur() {
         var operateur = new Operateur();
         operateur.setNom("mohsen");
         operateur.setPrenom("mohsen");
@@ -119,7 +113,7 @@ public class OperateurServiceImplTest {
         var op = operateurRepository.save(operateur);
         var rs = operateurService.retrieveOperateur(op.getIdOperateur());
 
-        Assertions.assertEquals(op.getIdOperateur(),rs.getIdOperateur());
-        Assertions.assertEquals(op.getNom(),rs.getNom());
+        Assertions.assertEquals(op.getIdOperateur(), rs.getIdOperateur());
+        Assertions.assertEquals(op.getNom(), rs.getNom());
     }
 }

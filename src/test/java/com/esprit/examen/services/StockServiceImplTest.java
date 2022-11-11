@@ -2,11 +2,6 @@ package com.esprit.examen.services;
 
 import static org.junit.Assert.*;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.esprit.examen.entities.Operateur;
-import com.esprit.examen.entities.Produit;
 import com.esprit.examen.repositories.StockRepository;
 import lombok.var;
 import org.junit.jupiter.api.Test;
